@@ -1,44 +1,48 @@
-const dotenv = require('dotenv');
+const express = require('express');
+const cors = require('cors');
 
-// Load environment variables
-dotenv.config();
+// Simple Express app for API routes
+const app = express();
 
-let app;
-let dbConnected = false;
+// Basic middleware
+app.use(express.json());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
-const initializeApp = async () => {
-  if (!app) {
-    try {
-      // Import app after env is loaded
-      app = require('../src/app');
-      
-      // Connect to database if not connected
-      if (!dbConnected) {
-        const connectDB = require('../src/config/database');
-        await connectDB();
-        dbConnected = true;
-        console.log('Database connected for API');
-      }
-      
-      return app;
-    } catch (error) {
-      console.error('Failed to initialize app:', error);
-      throw error;
+// Basic routes for testing
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Marketplace API endpoints',
+    version: '1.0.0',
+    endpoints: {
+      products: '/api/products',
+      auth: '/api/auth', 
+      orders: '/api/orders',
+      cart: '/api/cart'
     }
-  }
-  return app;
-};
+  });
+});
 
-module.exports = async (req, res) => {
-  try {
-    const expressApp = await initializeApp();
-    return expressApp(req, res);
-  } catch (error) {
-    console.error('API Error:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'API initialization failed',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-};
+app.get('/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API test endpoint working!',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'API is healthy',
+    uptime: process.uptime()
+  });
+});
+
+// Export as serverless function
+module.exports = app;
