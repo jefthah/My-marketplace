@@ -5,10 +5,9 @@ module.exports = (req, res) => {
   });
   
   res.end(JSON.stringify({
-    message: 'Marketplace API is working!',
-    status: 'success',
-    timestamp: new Date().toISOString(),
-    path: req.url,
-    method: req.method
+    message: 'Test API endpoint working!',
+    endpoint: '/api/test',
+    method: req.method,
+    timestamp: new Date().toISOString()
   }));
 };
