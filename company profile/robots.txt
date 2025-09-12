@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://digitalcorp.co.id/sitemap.xml
+
+# Disallow common unnecessary pages
+Disallow: /assets/
+Disallow: /*.css
+Disallow: /*.js
+Disallow: /index_backup.html
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

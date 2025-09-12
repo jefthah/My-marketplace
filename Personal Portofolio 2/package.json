@@ -1,0 +1,40 @@
+{
+  "name": "portfolio-website",
+  "version": "2.0.0",
+  "description": "Modern portfolio website with animations and responsive design",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "build": "npm run minify-css && npm run minify-js",
+    "minify-css": "cleancss -o css/styles.min.css css/styles.css",
+    "minify-js": "uglifyjs js/script.js -o js/script.min.js",
+    "dev": "live-server --port=3000 --watch=css,js",
+    "lint": "eslint js/script.js"
+  },
+  "keywords": [
+    "portfolio",
+    "website",
+    "html",
+    "css",
+    "javascript",
+    "gsap",
+    "responsive",
+    "animations"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "clean-css-cli": "^5.6.2",
+    "uglify-js": "^3.17.4",
+    "eslint": "^8.50.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/portfolio-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/portfolio-website/issues"
+  },
+  "homepage": "https://yourusername.github.io/portfolio-website"
+}

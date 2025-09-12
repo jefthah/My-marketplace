@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "marketplace-backend"
+		},
+		{
+			"path": "my-marketplace-frontend"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "marketplace-backend"
+	}
+}

@@ -1,0 +1,83 @@
+<svg width="300" height="200" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="portfolioGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="200" fill="url(#portfolioGrad3)" rx="8"/>
+  
+  <!-- Dashboard mockup with enhanced visual content -->
+  <rect x="10" y="10" width="280" height="180" fill="white" rx="6" opacity="0.98"/>
+  
+  <!-- Header with logo and navigation -->
+  <rect x="10" y="10" width="280" height="35" fill="#1e293b" rx="6 6 0 0"/>
+  <circle cx="25" cy="27" r="3" fill="#10b981"/>
+  <text x="35" y="31" fill="white" font-family="Arial" font-size="10" font-weight="bold">Analytics Pro</text>
+  <rect x="200" y="22" width="30" height="10" fill="#3b82f6" rx="5"/>
+  <circle cx="260" cy="27" r="8" fill="#8b5cf6"/>
+  
+  <!-- Sidebar -->
+  <rect x="10" y="45" width="60" height="145" fill="#f1f5f9" rx="0 0 0 6"/>
+  <rect x="20" y="60" width="40" height="12" fill="#3b82f6" rx="6"/>
+  <rect x="20" y="80" width="35" height="8" fill="#d1d5db" rx="4"/>
+  <rect x="20" y="95" width="40" height="8" fill="#d1d5db" rx="4"/>
+  <rect x="20" y="110" width="30" height="8" fill="#d1d5db" rx="4"/>
+  
+  <!-- Main dashboard area -->
+  <rect x="80" y="55" width="200" height="125" fill="white" rx="4"/>
+  
+  <!-- Stats cards -->
+  <rect x="90" y="65" width="50" height="30" fill="#3b82f6" rx="4"/>
+  <text x="115" y="78" fill="white" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle">$124K</text>
+  <text x="115" y="88" fill="#bfdbfe" font-family="Arial" font-size="6" text-anchor="middle">Revenue</text>
+  
+  <rect x="150" y="65" width="50" height="30" fill="#10b981" rx="4"/>
+  <text x="175" y="78" fill="white" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle">2,847</text>
+  <text x="175" y="88" fill="#a7f3d0" font-family="Arial" font-size="6" text-anchor="middle">Users</text>
+  
+  <rect x="210" y="65" width="50" height="30" fill="#8b5cf6" rx="4"/>
+  <text x="235" y="78" fill="white" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle">99.2%</text>
+  <text x="235" y="88" fill="#e9d5ff" font-family="Arial" font-size="6" text-anchor="middle">Uptime</text>
+  
+  <!-- Chart area with bars -->
+  <rect x="90" y="105" width="170" height="65" fill="#f8fafc" rx="4"/>
+  <text x="175" y="118" fill="#374151" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle">Performance Analytics</text>
+  
+  <!-- Animated bar chart -->
+  <rect x="110" y="150" width="6" height="12" fill="#3b82f6" rx="1"/>
+  <rect x="120" y="145" width="6" height="17" fill="#10b981" rx="1"/>
+  <rect x="130" y="140" width="6" height="22" fill="#8b5cf6" rx="1"/>
+  <rect x="140" y="148" width="6" height="14" fill="#f59e0b" rx="1"/>
+  <rect x="150" y="135" width="6" height="27" fill="#ef4444" rx="1"/>
+  <rect x="160" y="142" width="6" height="20" fill="#06b6d4" rx="1"/>
+  <rect x="170" y="138" width="6" height="24" fill="#84cc16" rx="1"/>
+  <rect x="180" y="145" width="6" height="17" fill="#f97316" rx="1"/>
+  <rect x="190" y="132" width="6" height="30" fill="#ec4899" rx="1"/>
+  <rect x="200" y="140" width="6" height="22" fill="#6366f1" rx="1"/>
+  <rect x="210" y="136" width="6" height="26" fill="#14b8a6" rx="1"/>
+  <rect x="220" y="143" width="6" height="19" fill="#a855f7" rx="1"/>
+  
+  <!-- Performance indicators -->
+  <circle cx="250" cy="130" r="6" fill="#10b981"/>
+  <text x="250" y="134" fill="white" font-family="Arial" font-size="6" text-anchor="middle">↗</text>
+  
+  <!-- Data flow lines -->
+  <line x1="100" y1="125" x2="240" y2="125" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="100" y1="135" x2="240" y2="135" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2,2"/>
+  <rect x="185" y="97" width="55" height="2" fill="#e5e7eb" rx="1"/>
+  <rect x="185" y="103" width="70" height="2" fill="#e5e7eb" rx="1"/>
+  
+  <!-- Bottom stats -->
+  <rect x="100" y="125" width="40" height="35" fill="#f8fafc" rx="4"/>
+  <rect x="105" y="135" width="30" height="6" fill="#3b82f6" rx="3"/>
+  <rect x="105" y="145" width="20" height="4" fill="#d1d5db" rx="2"/>
+  
+  <rect x="150" y="125" width="40" height="35" fill="#f8fafc" rx="4"/>
+  <rect x="155" y="135" width="30" height="6" fill="#10b981" rx="3"/>
+  <rect x="155" y="145" width="25" height="4" fill="#d1d5db" rx="2"/>
+  
+  <rect x="200" y="125" width="60" height="35" fill="#f8fafc" rx="4"/>
+  <rect x="205" y="135" width="50" height="6" fill="#8b5cf6" rx="3"/>
+  <rect x="205" y="145" width="35" height="4" fill="#d1d5db" rx="2"/>
+</svg>

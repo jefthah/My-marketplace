@@ -1,0 +1,5 @@
+export { default as ProductDetail } from './ProductDetail'
+export { default as ProductGallery } from './ProductGallery'
+export { default as ProductInfo } from './ProductInfo'
+export { default as PurchaseBox } from './PurchaseBox'
+export { default as CategoryPage } from './CategoryPage'

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anisa & Rizky - Wedding Invitation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-heart">❤</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#couple" class="nav-link">Mempelai</a>
+            <a href="#story" class="nav-link">Cerita Kami</a>
+            <a href="#event" class="nav-link">Acara</a>
+            <a href="#gallery" class="nav-link">Galeri</a>
+            <a href="#rsvp" class="nav-link">RSVP</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="floating-hearts"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Anisa & Rizky</h1>
+            <p class="hero-subtitle">We're Getting Married!</p>
+            <div class="hero-date">20 Desember 2025</div>
+        </div>
+    </section>
+
+    <!-- Couple Section -->
+    <section id="couple" class="section">
+        <h2 class="section-title">Pengantin</h2>
+        <div class="couple-container">
+            <div class="couple-card">
+                <div class="couple-image">👰</div>
+                <h3 class="couple-name">Anisa Putri</h3>
+                <p class="couple-parent">
+                    Putri dari<br>
+                    Bapak Ahmad Hidayat<br>
+                    & Ibu Siti Nurjanah
+                </p>
+            </div>
+            <div class="couple-card">
+                <div class="couple-image">🤵</div>
+                <h3 class="couple-name">Rizky Pratama</h3>
+                <p class="couple-parent">
+                    Putra dari<br>
+                    Bapak Dedi Kurniawan<br>
+                    & Ibu Rina Marlina
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Love Story -->
+    <section id="story" class="section">
+        <h2 class="section-title">Cerita Cinta Kami</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Pertemuan Pertama</h3>
+                    <p>2020 - Kami bertemu di sebuah acara kampus dan langsung merasa ada chemistry yang spesial.</p>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Kencan Pertama</h3>
+                    <p>2021 - Dinner romantis di tepi pantai dengan sunset yang indah, momen yang tak terlupakan.</p>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Lamaran</h3>
+                    <p>2024 - Di hadapan keluarga besar, kami mengikrarkan janji untuk melanjutkan ke jenjang yang lebih serius.</p>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Hari Bahagia</h3>
+                    <p>2025 - Akhirnya tiba saatnya kami bersatu dalam ikatan suci pernikahan.</p>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details -->
+    <section id="event" class="section">
+        <h2 class="section-title">Detail Acara</h2>
+        
+        <!-- Countdown -->
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">Hari</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">Jam</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">Menit</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">Detik</div>
+            </div>
+        </div>
+
+        <div class="couple-container">
+            <div class="couple-card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Akad Nikah</h3>
+                <p><strong>Sabtu, 20 Desember 2025</strong></p>
+                <p>Pukul: 08.00 - 10.00 WIB</p>
+                <p>Masjid Al-Ikhlas</p>
+                <p>Jl. Merdeka No. 123, Jakarta</p>
+            </div>
+            <div class="couple-card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Resepsi</h3>
+                <p><strong>Sabtu, 20 Desember 2025</strong></p>
+                <p>Pukul: 19.00 - 22.00 WIB</p>
+                <p>Grand Ballroom Hotel</p>
+                <p>Jl. Sudirman No. 456, Jakarta</p>
+            </div>
+        </div>
+
+        <div class="location-card">
+            <h3 style="color: var(--secondary); margin-bottom: 1rem;">Lokasi Acara</h3>
+            <div class="location-map">
+                📍 Peta Lokasi
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="section">
+        <h2 class="section-title">Galeri Foto</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 1</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 2</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 3</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 4</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 5</span>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-overlay">
+                    <span style="color: white; font-size: 1.5rem;">Pre-Wedding 6</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="section">
+        <h2 class="section-title">Konfirmasi Kehadiran</h2>
+        <form class="rsvp-form">
+            <div class="form-group">
+                <label class="form-label">Nama Lengkap</label>
+                <input type="text" class="form-input" placeholder="Masukkan nama Anda" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="email@example.com" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nomor WhatsApp</label>
+                <input type="tel" class="form-input" placeholder="08xx-xxxx-xxxx" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Konfirmasi Kehadiran</label>
+                <select class="form-select" required>
+                    <option value="">Pilih...</option>
+                    <option value="hadir">Hadir</option>
+                    <option value="tidak">Tidak Hadir</option>
+                    <option value="belum">Belum Pasti</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Jumlah Tamu</label>
+                <select class="form-select">
+                    <option value="1">1 Orang</option>
+                    <option value="2">2 Orang</option>
+                    <option value="3">3 Orang</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Ucapan & Doa</label>
+                <textarea class="form-textarea" rows="4" placeholder="Tulis ucapan dan doa untuk kami..."></textarea>
+            </div>
+            <button type="submit" class="form-button">Kirim Konfirmasi</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3 class="footer-title">Thank You</h3>
+        <p>Merupakan suatu kehormatan dan kebahagiaan bagi kami<br>
+        apabila Bapak/Ibu/Saudara/i berkenan hadir<br>
+        untuk memberikan doa restu kepada kami.</p>
+        <p style="margin-top: 2rem; font-size: 1.2rem;">
+            With Love,<br>
+            <strong>Anisa & Rizky</strong>
+        </p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

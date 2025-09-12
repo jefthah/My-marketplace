@@ -1,0 +1,39 @@
+/* Video preview container with proper aspect ratio */
+.video-preview-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+}
+
+.video-preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.video-preview-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Ensure video container doesn't overflow */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Play button hover effects */
+.play-button {
+  transition: all 0.3s ease;
+}
+
+.play-button:hover {
+  transform: scale(1.1);
+}

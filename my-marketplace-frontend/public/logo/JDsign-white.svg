@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+<path d="M0 0 C10.78077374 -0.77373974 10.78077374 -0.77373974 15.25 2.0625 C17.47215356 5.79254347 17.76313599 7.72643844 17 12 C15.0625 14.9375 15.0625 14.9375 12 17 C8.9508912 17.39770984 6.0546741 17.29947785 3 17 C3.7425 17.144375 4.485 17.28875 5.25 17.4375 C8 18 8 18 10.0625 18.625 C12.35947925 19.06957663 13.77348113 18.64640871 16 18 C16.99 18 17.98 18 19 18 C19 20.64 19 23.28 19 26 C15 26 11 26 7 26 C6.030625 26.020625 5.06125 26.04125 4.0625 26.0625 C1 26 1 26 -2 25 C-4.00875442 25.27571139 -6.01178687 25.60235737 -8 26 C-8 23.36 -8 20.72 -8 18 C-6.68 18 -5.36 18 -4 18 C-4.185625 17.38125 -4.37125 16.7625 -4.5625 16.125 C-5 14 -5 14 -4 12 C-2.68 12.33 -1.36 12.66 0 13 C0 13.99 0 14.98 0 16 C0.66 16 1.32 16 2 16 C2 11.38 2 6.76 2 2 C1.34 2 0.68 2 0 2 C0 1.34 0 0.68 0 0 Z M7 2 C7 6.29 7 10.58 7 15 C10.74275212 14.42874646 10.74275212 14.42874646 12 13 C12.46331437 7.12353969 12.46331437 7.12353969 10 2 C9.01 2 8.02 2 7 2 Z M-3 17 C-3 17.99 -3 18.98 -3 20 C-1.68 19.34 -0.36 18.68 1 18 C-0.32 17.67 -1.64 17.34 -3 17 Z M-5 20 C-4 24 -4 24 -4 24 Z M9 21 C10 24 10 24 10 24 Z M15 23 C16 25 16 25 16 25 Z " fill="#FAFAFA" transform="translate(14,7)"/>
+<path d="M0 0 C0.66 0 1.32 0 2 0 C2 3.63 2 7.26 2 11 C1.34 11 0.68 11 0 11 C0 7.37 0 3.74 0 0 Z " fill="#FAF9FA" transform="translate(22,10)"/>
+<path d="M0 0 C3.63 0 7.26 0 11 0 C11 0.33 11 0.66 11 1 C7.37 1 3.74 1 0 1 C0 0.67 0 0.34 0 0 Z " fill="#FBFAFB" transform="translate(15,5)"/>
+<path d="M0 0 C0.33 0 0.66 0 1 0 C1 3.3 1 6.6 1 10 C0.67 10 0.34 10 0 10 C0 6.7 0 3.4 0 0 Z " fill="#FBFAFA" transform="translate(14,10)"/>
+<path d="M0 0 C0.33 0 0.66 0 1 0 C1 2.64 1 5.28 1 8 C0.67 8 0.34 8 0 8 C0 5.36 0 2.72 0 0 Z " fill="#FBF9FB" transform="translate(24,12)"/>
+<path d="M0 0 C0.33 0 0.66 0 1 0 C1 1.65 1 3.3 1 5 C0.67 5 0.34 5 0 5 C0 3.35 0 1.7 0 0 Z " fill="#FBFAFA" transform="translate(34,26)"/>
+<path d="M0 0 C0.33 0 0.66 0 1 0 C1 1.65 1 3.3 1 5 C0.67 5 0.34 5 0 5 C0 3.35 0 1.7 0 0 Z " fill="#FAF9FA" transform="translate(32,13)"/>
+<path d="M0 0 C1 4 1 4 1 4 Z " fill="#F6F9F8" transform="translate(5,27)"/>
+<path d="M0 0 C3 1 3 1 3 1 Z " fill="#FAF9FA" transform="translate(10,17)"/>
+<path d="" fill="#FBFAFA" transform="translate(0,0)"/>
+<path d="" fill="#FBF9FA" transform="translate(0,0)"/>
+<path d="M0 0 C2 1 2 1 2 1 Z " fill="#FAFAFB" transform="translate(26,6)"/>
+<path d="" fill="#FFFFFF" transform="translate(0,0)"/>
+<path d="" fill="#FCFBFB" transform="translate(0,0)"/>
+<path d="" fill="#FBFAFA" transform="translate(0,0)"/>
+<path d="" fill="#FAF9F9" transform="translate(0,0)"/>
+<path d="" fill="#FAF9F9" transform="translate(0,0)"/>
+<path d="" fill="#FCFCFC" transform="translate(0,0)"/>
+<path d="" fill="#FFFFFF" transform="translate(0,0)"/>
+<path d="" fill="#FBFAFB" transform="translate(0,0)"/>
+<path d="" fill="#F9F8FB" transform="translate(0,0)"/>
+<path d="" fill="#FBFAFA" transform="translate(0,0)"/>
+<path d="" fill="#FBF9FA" transform="translate(0,0)"/>
+<path d="" fill="#FCFBFB" transform="translate(0,0)"/>
+<path d="" fill="#FAF9F9" transform="translate(0,0)"/>
+<path d="" fill="#FAF8F9" transform="translate(0,0)"/>
+<path d="" fill="#FBFDFE" transform="translate(0,0)"/>
+<path d="" fill="#FAFBFB" transform="translate(0,0)"/>
+<path d="" fill="#FAF9F9" transform="translate(0,0)"/>
+</svg>

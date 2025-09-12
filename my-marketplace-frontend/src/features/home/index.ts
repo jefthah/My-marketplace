@@ -1,0 +1,6 @@
+export { default as HeroSection } from './HeroSection'
+export { default as CategoriesSection } from './CategoriesSection'
+export { default as FeaturedDesigns } from './FeaturedDesigns'
+export { default as ReviewsSection } from './ReviewsSection'
+export { default as AboutSection } from './AboutSection'
+export { default as CTASection } from './CTASection'

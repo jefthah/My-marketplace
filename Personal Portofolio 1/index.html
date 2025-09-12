@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Johnson - Creative Designer & Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Alex Johnson</div>
+            
+            <!-- Hamburger Menu Button -->
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+                <div class="shape shape-5"></div>
+            </div>
+            <!-- Animated particles -->
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+        
+        <!-- Main Hero Content -->
+        <div class="hero-content">
+            <!-- Left Column -->
+            <div class="hero-left">
+                <!-- Profile Image -->
+                <div class="hero-avatar">
+                    <div class="avatar-container">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Alex Johnson" class="avatar-img">
+                        <div class="avatar-ring"></div>
+                        <div class="avatar-status"></div>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Available for work</span>
+                    </div>
+                </div>
+                
+                <!-- Welcome Text -->
+                <div class="hero-intro">
+                    <p class="hero-greeting">
+                        <span class="wave">👋</span> Hello, I'm 
+                    </p>
+                    <h1 class="hero-name">Alex Johnson</h1>
+                    <div class="hero-role">
+                        <span class="role-text">I'm a </span>
+                        <span class="typing-text">Frontend Developer</span>
+                    </div>
+                </div>
+                
+                <!-- Main Title -->
+                <h2 class="hero-title">
+                    <span class="title-line">Creative</span>
+                    <span class="title-line">
+                        <span class="gradient-text">Designer</span> & 
+                        <span class="gradient-text">Developer</span>
+                    </span>
+                </h2>
+                
+                <!-- Description -->
+                <p class="hero-description">
+                    I design and develop exceptional digital experiences that are fast, accessible, 
+                    visually appealing, and responsive. My passion is crafting solutions that users love 
+                    and businesses value.
+                </p>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="hero-right">
+            
+            <!-- Specializations -->
+            <div class="hero-specializations">
+                <div class="spec-item">
+                    <span class="spec-icon">🎨</span>
+                    <span class="spec-text">UI/UX Design</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-icon">💻</span>
+                    <span class="spec-text">Frontend Development</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-icon">📱</span>
+                    <span class="spec-text">Mobile Apps</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-icon">🚀</span>
+                    <span class="spec-text">Performance</span>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="6">0</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+            </div>
+            
+            <!-- Call to Action Buttons -->
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary" id="downloadCV">
+                    <span class="btn-text">Download CV</span>
+                    <span class="btn-icon">📄</span>
+                </a>
+                <a href="#projects" class="btn btn-secondary">
+                    <span class="btn-text">View My Work</span>
+                    <span class="btn-icon">🚀</span>
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <span class="btn-text">Get In Touch</span>
+                    <span class="btn-icon">💬</span>
+                </a>
+            </div>
+            
+            <!-- Technologies I Use -->
+            <div class="hero-tech">
+                <p class="tech-label">Technologies I work with:</p>
+                <div class="tech-icons">
+                    <div class="tech-item" title="React">
+                        <span>⚛️</span>
+                    </div>
+                    <div class="tech-item" title="JavaScript">
+                        <span>🟨</span>
+                    </div>
+                    <div class="tech-item" title="TypeScript">
+                        <span>🔷</span>
+                    </div>
+                    <div class="tech-item" title="Node.js">
+                        <span>🟢</span>
+                    </div>
+                    <div class="tech-item" title="Figma">
+                        <span>🎨</span>
+                    </div>
+                    <div class="tech-item" title="CSS3">
+                        <span>�</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="hero-social">
+                <p class="social-label">Connect with me:</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" title="GitHub">
+                        <span>💾</span>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <span>💼</span>
+                    </a>
+                    <a href="#" class="social-icon" title="Dribbble">
+                        <span>🎯</span>
+                    </a>
+                    <a href="#" class="social-icon" title="Twitter">
+                        <span>🐦</span>
+                    </a>
+                    <a href="#" class="social-icon" title="Instagram">
+                        <span>📷</span>
+                    </a>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <div class="scroll-arrow">↓</div>
+                <span class="scroll-text">Scroll to explore</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Get to know me</p>
+                <h2 class="section-title">About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" alt="Alex Johnson - Creative Designer & Developer">
+                    </div>
+                    <div class="image-decoration"></div>
+                </div>
+                <div class="about-text">
+                    <h3>I'm a Passionate Creative Professional</h3>
+                    <p>
+                        With over 6 years of experience in digital design and web development, I specialize in creating 
+                        stunning digital solutions that combine aesthetic appeal with functional excellence. My journey 
+                        began with a love for both art and technology, leading me to bridge the gap between beautiful design and robust code.
+                    </p>
+                    <p>
+                        I believe in the power of user-centered design and clean, maintainable code. Whether it's crafting 
+                        pixel-perfect interfaces, developing responsive web applications, or creating brand identities, I bring 
+                        creativity, technical expertise, and attention to detail to every project.
+                    </p>
+                    <p>
+                        When I'm not coding or designing, you can find me exploring new technologies, photography, or mentoring 
+                        aspiring developers in my local tech community.
+                    </p>
+                    <div class="skills">
+                        <span class="skill-tag">UI/UX Design</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Next.js</span>
+                        <span class="skill-tag">GSAP</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Adobe Creative Suite</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Recent Work</p>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">TaskFlow - Project Management</h3>
+                        <p class="project-description">
+                            A comprehensive project management platform with real-time collaboration, task tracking, and team analytics. Built with modern technologies for optimal performance.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">MongoDB</span>
+                            <span class="tech-badge">Socket.io</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%), url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">EcoShop - E-commerce Platform</h3>
+                        <p class="project-description">
+                            An eco-friendly e-commerce platform featuring sustainable products, carbon footprint tracking, and green shipping options with seamless checkout experience.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Next.js</span>
+                            <span class="tech-badge">Stripe</span>
+                            <span class="tech-badge">PostgreSQL</span>
+                            <span class="tech-badge">Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%), url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">MindfulSpace - Wellness App</h3>
+                        <p class="project-description">
+                            A comprehensive wellness application featuring guided meditation, mood tracking, and personalized wellness journeys with beautiful, calming interface design.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">React Native</span>
+                            <span class="tech-badge">Firebase</span>
+                            <span class="tech-badge">Redux</span>
+                            <span class="tech-badge">Figma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%), url('https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">DataViz Dashboard</h3>
+                        <p class="project-description">
+                            An interactive data visualization dashboard for business analytics with real-time charts, customizable widgets, and comprehensive reporting features.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">D3.js</span>
+                            <span class="tech-badge">Vue.js</span>
+                            <span class="tech-badge">Express</span>
+                            <span class="tech-badge">Chart.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%), url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">CreativeStudio Brand Identity</h3>
+                        <p class="project-description">
+                            Complete brand identity design for a creative studio including logo design, color palette, typography, and comprehensive brand guidelines.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Adobe Illustrator</span>
+                            <span class="tech-badge">Photoshop</span>
+                            <span class="tech-badge">InDesign</span>
+                            <span class="tech-badge">Figma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop') center/cover;">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">👁️</a>
+                                <a href="#" class="project-link">🔗</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">SmartHome IoT Interface</h3>
+                        <p class="project-description">
+                            An intuitive smart home control interface connecting IoT devices with voice control, automation scheduling, and energy monitoring capabilities.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">IoT</span>
+                            <span class="tech-badge">MQTT</span>
+                            <span class="tech-badge">Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">What I Offer</p>
+                <h2 class="section-title">My Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3 class="service-title">UI/UX Design</h3>
+                    <p class="service-description">
+                        Creating intuitive and beautiful user interfaces that provide exceptional user experiences. From wireframes to high-fidelity prototypes, I design with users in mind.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3 class="service-title">Web Development</h3>
+                    <p class="service-description">
+                        Building responsive and performant websites using modern technologies like React, Next.js, and Node.js. Clean code and best practices guaranteed.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3 class="service-title">Mobile App Design</h3>
+                    <p class="service-description">
+                        Designing mobile applications that are both visually appealing and highly functional. Native iOS and Android design patterns expertise.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3 class="service-title">Brand Identity</h3>
+                    <p class="service-description">
+                        Comprehensive brand identity design including logos, color palettes, typography, and brand guidelines that make your business stand out.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3 class="service-title">Performance Optimization</h3>
+                    <p class="service-description">
+                        Optimizing websites and applications for speed, SEO, and user experience. Making sure your digital products perform at their best.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3 class="service-title">Consulting & Strategy</h3>
+                    <p class="service-description">
+                        Providing strategic guidance on digital transformation, technology choices, and user experience improvements for your business goals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Get In Touch</p>
+                <h2 class="section-title">Contact Me</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Work Together</h3>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">
+                        I'm always excited to work on new projects and collaborate with amazing people. 
+                        Whether you have a project in mind or just want to chat about design and technology, 
+                        I'd love to hear from you!
+                    </p>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <p style="font-weight: 600;">Email</p>
+                            <p style="color: var(--gray);">alex.johnson@email.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <p style="font-weight: 600;">Phone</p>
+                            <p style="color: var(--gray);">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <p style="font-weight: 600;">Location</p>
+                            <p style="color: var(--gray);">San Francisco, CA</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <p style="font-weight: 600;">Response Time</p>
+                            <p style="color: var(--gray);">Usually within 24 hours</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell me about your project or just say hello!" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link" title="LinkedIn">💼</a>
+                <a href="#" class="social-link" title="GitHub">💾</a>
+                <a href="#" class="social-link" title="Dribbble">🎯</a>
+                <a href="#" class="social-link" title="Twitter">🐦</a>
+                <a href="#" class="social-link" title="Instagram">📷</a>
+            </div>
+            <p>&copy; 2024 Alex Johnson. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Designed with ❤️ and crafted with passion</p>
+        </div>
+    </footer>
+</body>
+</html>
