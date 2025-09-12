@@ -27,12 +27,38 @@ app.use(helmet({
 }));
 
 // CORS
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Frontend + Backend URLs
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173', 
+      'http://localhost:3000',
+      'https://my-marketplace-dx.vercel.app', // Replace with your actual frontend URL
+      'https://*.vercel.app' // Allow all vercel apps for development
+    ];
+    
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        const regex = new RegExp(allowedOrigin.replace('*', '.*'));
+        return regex.test(origin);
+      }
+      return allowedOrigin === origin;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control', 'X-Requested-With', 'If-Modified-Since']
-}));
+};
+
+app.use(cors(corsOptions));
 
 // Rate limiting - DISABLED FOR TESTING
 // const limiter = rateLimit({
@@ -57,6 +83,17 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Root route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Marketplace Backend API is running!',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
@@ -69,7 +106,29 @@ app.use('/api/reviews', reviewRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'Server is running' });
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// API info
+app.get('/api', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Marketplace API endpoints',
+    endpoints: {
+      auth: '/api/auth',
+      products: '/api/products',
+      orders: '/api/orders',
+      payments: '/api/payments',
+      cart: '/api/cart',
+      payouts: '/api/payouts',
+      favorites: '/api/favorites',
+      reviews: '/api/reviews'
+    }
+  });
 });
 
 // 404 handler

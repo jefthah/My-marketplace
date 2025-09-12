@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "build": "echo 'Build completed'",
+    "vercel": "node index.js",
     "seed": "node src/seeder.js"
   },
   "keywords": [],
