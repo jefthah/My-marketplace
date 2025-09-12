@@ -13,7 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",
