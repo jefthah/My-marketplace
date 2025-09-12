@@ -1,9 +1,9 @@
-// Simple serverless function handler
+// Health check endpoint
 module.exports = (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
   
   if (req.method === 'OPTIONS') {
@@ -11,12 +11,11 @@ module.exports = (req, res) => {
     return;
   }
 
-  // Simple response
   res.status(200).json({
-    message: 'Marketplace Backend API is working!',
+    status: 'OK',
+    service: 'Marketplace Backend',
+    uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    method: req.method,
-    url: req.url,
-    env: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development'
   });
 };

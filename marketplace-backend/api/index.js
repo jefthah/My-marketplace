@@ -1,42 +1,21 @@
-const dotenv = require('dotenv');
-
-// Load env vars
-dotenv.config();
-
-const app = require('../src/app');
-const connectDB = require('../src/config/database');
-
-// Connect to database
-let isConnected = false;
-
-const connectToDatabase = async () => {
-  if (isConnected) {
+// Simple test API endpoint
+module.exports = (req, res) => {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
     return;
   }
-  
-  try {
-    await connectDB();
-    isConnected = true;
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Database connection failed:', error);
-    throw error;
-  }
-};
 
-// Vercel serverless function handler
-module.exports = async (req, res) => {
-  try {
-    // Ensure database is connected
-    await connectToDatabase();
-    
-    // Handle the request with Express app
-    return app(req, res);
-  } catch (error) {
-    console.error('Function error:', error);
-    return res.status(500).json({ 
-      error: 'Internal Server Error',
-      message: error.message 
-    });
-  }
+  res.status(200).json({
+    message: 'API endpoint is working!',
+    path: '/api/',
+    method: req.method,
+    timestamp: new Date().toISOString(),
+    status: 'success'
+  });
 };
