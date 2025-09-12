@@ -4,9 +4,29 @@
     {
       "src": "index.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/health.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/app.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/app.js"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.js"
@@ -14,5 +34,16 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "index.js": {
+      "maxDuration": 30
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    },
+    "api/app.js": {
+      "maxDuration": 30
+    }
   }
 }
