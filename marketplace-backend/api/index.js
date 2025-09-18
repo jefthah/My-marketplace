@@ -167,31 +167,87 @@ app.get('/api', (req, res) => {
 
 // Try to load routes safely
 try {
-  // Connect to database
-  const connectDB = require('../src/config/database');
-  connectDB().catch(err => console.warn('DB connection failed:', err.message));
+  console.log('🔄 Starting route loading process...');
+  
+  // Connect to database (non-blocking)
+  try {
+    console.log('🔄 Attempting database connection...');
+    const connectDB = require('../src/config/database');
+    connectDB()
+      .then(() => console.log('✅ Database connected successfully'))
+      .catch(err => console.warn('⚠️ DB connection failed:', err.message));
+  } catch (dbError) {
+    console.warn('⚠️ Database module loading failed:', dbError.message);
+  }
 
-  // Load routes
-  const authRoutes = require('../src/routes/authRoutes');
-  const productRoutes = require('../src/routes/productRoutes');
-  const orderRoutes = require('../src/routes/orderRoutes');
-  const paymentRoutes = require('../src/routes/paymentRoutes');
-  const cartRoutes = require('../src/routes/cartRoutes');
-  const payoutRoutes = require('../src/routes/payoutRoutes');
-  const favoriteRoutes = require('../src/routes/favoriteRoutes');
-  const reviewRoutes = require('../src/routes/reviewRoutes');
+  // Load routes one by one with individual error handling
+  console.log('🔄 Loading routes...');
+  
+  try {
+    const authRoutes = require('../src/routes/authRoutes');
+    app.use('/api/auth', authRoutes);
+    console.log('✅ Auth routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Auth routes failed:', err.message);
+  }
+  
+  try {
+    const productRoutes = require('../src/routes/productRoutes');
+    app.use('/api/products', productRoutes);
+    console.log('✅ Product routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Product routes failed:', err.message);
+  }
+  
+  try {
+    const orderRoutes = require('../src/routes/orderRoutes');
+    app.use('/api/orders', orderRoutes);
+    console.log('✅ Order routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Order routes failed:', err.message);
+  }
+  
+  try {
+    const paymentRoutes = require('../src/routes/paymentRoutes');
+    app.use('/api/payments', paymentRoutes);
+    console.log('✅ Payment routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Payment routes failed:', err.message);
+  }
+  
+  try {
+    const cartRoutes = require('../src/routes/cartRoutes');
+    app.use('/api/cart', cartRoutes);
+    console.log('✅ Cart routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Cart routes failed:', err.message);
+  }
+  
+  try {
+    const payoutRoutes = require('../src/routes/payoutRoutes');
+    app.use('/api/payouts', payoutRoutes);
+    console.log('✅ Payout routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Payout routes failed:', err.message);
+  }
+  
+  try {
+    const favoriteRoutes = require('../src/routes/favoriteRoutes');
+    app.use('/api/favorites', favoriteRoutes);
+    console.log('✅ Favorite routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Favorite routes failed:', err.message);
+  }
+  
+  try {
+    const reviewRoutes = require('../src/routes/reviewRoutes');
+    app.use('/api/reviews', reviewRoutes);
+    console.log('✅ Review routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Review routes failed:', err.message);
+  }
 
-  // API Routes
-  app.use('/api/auth', authRoutes);
-  app.use('/api/products', productRoutes);
-  app.use('/api/orders', orderRoutes);
-  app.use('/api/payments', paymentRoutes);
-  app.use('/api/cart', cartRoutes);
-  app.use('/api/payouts', payoutRoutes);
-  app.use('/api/favorites', favoriteRoutes);
-  app.use('/api/reviews', reviewRoutes);
-
-  console.log('✅ All routes loaded successfully');
+  console.log('✅ Route loading process completed');
 } catch (error) {
   console.warn('⚠️ Some routes failed to load:', error.message);
   console.error('Route loading error details:', error);
@@ -206,12 +262,62 @@ try {
     });
   });
   
-  app.post('/api/auth/login', (req, res) => {
-    res.status(503).json({ 
-      success: false, 
-      message: 'Auth service temporarily unavailable (fallback mode)', 
+  // Simple fallback login endpoint
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // Basic validation
+      if (!email || !password) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email and password are required',
+          service: 'fallback'
+        });
+      }
+      
+      // Mock successful login for testing (remove in production)
+      if (email === 'jeftasaputra543@gmail.com' && password === 'jefta123456') {
+        return res.json({
+          success: true,
+          message: 'Login successful (fallback mode)',
+          data: {
+            user: {
+              id: 'mock-user-id',
+              email: email,
+              name: 'Test User',
+              role: 'user'
+            },
+            token: 'mock-jwt-token-for-testing'
+          },
+          service: 'fallback',
+          note: 'This is a mock response for testing. Main auth service needs database connection.'
+        });
+      }
+      
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials',
+        service: 'fallback'
+      });
+      
+    } catch (err) {
+      console.error('Fallback login error:', err);
+      res.status(500).json({
+        success: false,
+        message: 'Server error in fallback mode',
+        service: 'fallback'
+      });
+    }
+  });
+  
+  // Fallback register endpoint
+  app.post('/api/auth/register', (req, res) => {
+    res.status(503).json({
+      success: false,
+      message: 'Registration service temporarily unavailable (fallback mode)',
       service: 'fallback',
-      note: 'Please check database connection and route configuration'
+      note: 'Please check database connection and try again later'
     });
   });
   
