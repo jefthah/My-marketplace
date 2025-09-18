@@ -3,17 +3,18 @@ dotenv.config();
 
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('../src/config/database');
 
+// Create Express app
 const app = express();
 
 // Basic middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// CORS
+// CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow requests with no origin
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
@@ -37,82 +38,114 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control', 'X-Requested-With']
 }));
 
-// Connect to database
-connectDB().catch(err => {
-  console.error('Database connection failed:', err);
-});
-
-// Load only essential routes for serverless
-try {
-  const authRoutes = require('../src/routes/authRoutes');
-  app.use('/api/auth', authRoutes);
-  console.log('✅ Auth routes loaded');
-} catch (err) {
-  console.error('❌ Auth routes failed:', err.message);
-  
-  // Fallback auth endpoints jika routes gagal load
-  const { registerUser, login } = require('../src/controllers/authController');
-  
-  app.post('/api/auth/register', async (req, res) => {
-    try {
-      await registerUser(req, res);
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Registration failed',
-        error: error.message
-      });
-    }
-  });
-  
-  app.post('/api/auth/login', async (req, res) => {
-    try {
-      await login(req, res);
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Login failed',
-        error: error.message
-      });
-    }
-  });
-  
-  console.log('✅ Fallback auth endpoints created');
-}
-
-try {
-  const productRoutes = require('../src/routes/productRoutes');
-  app.use('/api/products', productRoutes);
-  console.log('✅ Product routes loaded');
-} catch (err) {
-  console.error('❌ Product routes failed:', err.message);
-}
-
 // Root route
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Marketplace Backend API (Original)',
-    version: '3.0.0-serverless',
+    message: 'Marketplace Backend API is running!',
+    version: '3.0.0-database-integrated',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'production',
-    database: 'MongoDB Atlas Connected',
-    endpoints: {
-      auth: {
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-        me: 'GET /api/auth/me'
-      },
-      products: 'GET /api/products'
-    }
+    environment: process.env.NODE_ENV || 'production'
   });
+});
+
+// Initialize database connection and routes
+let isInitialized = false;
+
+async function initializeApp() {
+  if (isInitialized) return;
+  
+  try {
+    // Connect to database
+    const connectDB = require('../src/config/database');
+    await connectDB();
+    console.log('✅ Database connected successfully');
+    
+    // Load auth routes
+    try {
+      const authRoutes = require('../src/routes/authRoutes');
+      app.use('/api/auth', authRoutes);
+      console.log('✅ Auth routes loaded');
+    } catch (err) {
+      console.warn('⚠️ Auth routes failed:', err.message);
+    }
+    
+    // Load other routes with error handling
+    const routes = [
+      { path: '/api/products', module: '../src/routes/productRoutes', name: 'Product' },
+      { path: '/api/orders', module: '../src/routes/orderRoutes', name: 'Order' },
+      { path: '/api/cart', module: '../src/routes/cartRoutes', name: 'Cart' },
+      { path: '/api/payments', module: '../src/routes/paymentRoutes', name: 'Payment' },
+      { path: '/api/payouts', module: '../src/routes/payoutRoutes', name: 'Payout' },
+      { path: '/api/favorites', module: '../src/routes/favoriteRoutes', name: 'Favorite' },
+      { path: '/api/reviews', module: '../src/routes/reviewRoutes', name: 'Review' }
+    ];
+    
+    routes.forEach(route => {
+      try {
+        const routeModule = require(route.module);
+        app.use(route.path, routeModule);
+        console.log(`✅ ${route.name} routes loaded`);
+      } catch (err) {
+        console.warn(`⚠️ ${route.name} routes failed:`, err.message);
+      }
+    });
+    
+    isInitialized = true;
+    console.log('✅ Application initialized successfully');
+    
+  } catch (error) {
+    console.error('❌ App initialization failed:', error.message);
+    
+    // Fallback endpoints if database fails
+    app.post('/api/auth/login', (req, res) => {
+      res.status(503).json({
+        success: false,
+        message: 'Authentication service temporarily unavailable - database connection failed',
+        error: 'Database connection error'
+      });
+    });
+    
+    app.post('/api/auth/register', (req, res) => {
+      res.status(503).json({
+        success: false,
+        message: 'Registration service temporarily unavailable - database connection failed',
+        error: 'Database connection error'
+      });
+    });
+  }
+}
+
+// Initialize on first request
+app.use(async (req, res, next) => {
+  if (!isInitialized) {
+    await initializeApp();
+  }
+  next();
 });
 
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: `Route ${req.method} ${req.originalUrl} not found`
+    message: `Route ${req.method} ${req.originalUrl} not found`,
+    availableEndpoints: [
+      'GET /',
+      'POST /api/auth/login',
+      'POST /api/auth/register',
+      'GET /api/auth/me',
+      'GET /api/products'
+    ]
+  });
+});
+
+// Error handler
+app.use((error, req, res, next) => {
+  console.error('Server error:', error);
+  res.status(500).json({
+    success: false,
+    message: 'Internal server error',
+    error: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
   });
 });
 
