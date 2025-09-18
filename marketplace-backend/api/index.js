@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
     version: '3.0.0-database-integrated',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'production',
-    initialized: isInitialized,
+    routesLoaded: true,
     hasMongoUri: !!process.env.MONGODB_URI,
     hasJwtSecret: !!process.env.JWT_SECRET
   });
@@ -55,93 +55,64 @@ app.get('/', (req, res) => {
 // Debug endpoint
 app.get('/debug', (req, res) => {
   res.json({
-    initialized: isInitialized,
     environment: process.env.NODE_ENV,
     hasMongoUri: !!process.env.MONGODB_URI,
     hasJwtSecret: !!process.env.JWT_SECRET,
-    mongoUriStart: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 20) + '...' : 'not set'
+    mongoUriStart: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 20) + '...' : 'not set',
+    routesLoaded: 'synchronously'
   });
 });
 
-// Initialize database connection and routes
-let isInitialized = false;
-
-async function initializeApp() {
-  if (isInitialized) return;
-  
-  try {
-    // Connect to database
-    const connectDB = require('../src/config/database');
-    await connectDB();
+// Load routes directly
+try {
+  // Connect to database
+  const connectDB = require('../src/config/database');
+  connectDB().then(() => {
     console.log('✅ Database connected successfully');
-    
-    // Load auth routes
+  }).catch(err => {
+    console.error('⚠️ Database connection failed:', err.message);
+  });
+
+  // Load auth routes
+  const authRoutes = require('../src/routes/authRoutes');
+  app.use('/api/auth', authRoutes);
+  console.log('✅ Auth routes loaded');
+
+  // Load other routes
+  const routes = [
+    { path: '/api/products', module: '../src/routes/productRoutes', name: 'Product' },
+    { path: '/api/orders', module: '../src/routes/orderRoutes', name: 'Order' },
+    { path: '/api/cart', module: '../src/routes/cartRoutes', name: 'Cart' },
+    { path: '/api/payments', module: '../src/routes/paymentRoutes', name: 'Payment' },
+    { path: '/api/payouts', module: '../src/routes/payoutRoutes', name: 'Payout' },
+    { path: '/api/favorites', module: '../src/routes/favoriteRoutes', name: 'Favorite' },
+    { path: '/api/reviews', module: '../src/routes/reviewRoutes', name: 'Review' }
+  ];
+
+  routes.forEach(route => {
     try {
-      const authRoutes = require('../src/routes/authRoutes');
-      app.use('/api/auth', authRoutes);
-      console.log('✅ Auth routes loaded');
+      const routeModule = require(route.module);
+      app.use(route.path, routeModule);
+      console.log(`✅ ${route.name} routes loaded`);
     } catch (err) {
-      console.warn('⚠️ Auth routes failed:', err.message);
+      console.warn(`⚠️ ${route.name} routes failed:`, err.message);
     }
-    
-    // Load other routes with error handling
-    const routes = [
-      { path: '/api/products', module: '../src/routes/productRoutes', name: 'Product' },
-      { path: '/api/orders', module: '../src/routes/orderRoutes', name: 'Order' },
-      { path: '/api/cart', module: '../src/routes/cartRoutes', name: 'Cart' },
-      { path: '/api/payments', module: '../src/routes/paymentRoutes', name: 'Payment' },
-      { path: '/api/payouts', module: '../src/routes/payoutRoutes', name: 'Payout' },
-      { path: '/api/favorites', module: '../src/routes/favoriteRoutes', name: 'Favorite' },
-      { path: '/api/reviews', module: '../src/routes/reviewRoutes', name: 'Review' }
-    ];
-    
-    routes.forEach(route => {
-      try {
-        const routeModule = require(route.module);
-        app.use(route.path, routeModule);
-        console.log(`✅ ${route.name} routes loaded`);
-      } catch (err) {
-        console.warn(`⚠️ ${route.name} routes failed:`, err.message);
-      }
+  });
+
+  console.log('✅ All routes loaded successfully');
+
+} catch (error) {
+  console.error('❌ Route loading failed:', error.message);
+  
+  // Fallback login endpoint
+  app.post('/api/auth/login', (req, res) => {
+    res.status(503).json({
+      success: false,
+      message: 'Authentication service temporarily unavailable',
+      error: error.message
     });
-    
-    isInitialized = true;
-    console.log('✅ Application initialized successfully');
-    
-  } catch (error) {
-    console.error('❌ App initialization failed:', error.message);
-    
-    // Fallback endpoints if database fails
-    app.post('/api/auth/login', (req, res) => {
-      res.status(503).json({
-        success: false,
-        message: 'Authentication service temporarily unavailable - database connection failed',
-        error: 'Database connection error'
-      });
-    });
-    
-    app.post('/api/auth/register', (req, res) => {
-      res.status(503).json({
-        success: false,
-        message: 'Registration service temporarily unavailable - database connection failed',
-        error: 'Database connection error'
-      });
-    });
-  }
+  });
 }
-
-// Initialize immediately
-initializeApp().catch(err => {
-  console.error('Failed to initialize app:', err);
-});
-
-// Initialize on first request as backup
-app.use(async (req, res, next) => {
-  if (!isInitialized) {
-    await initializeApp();
-  }
-  next();
-});
 
 // 404 handler
 app.use((req, res) => {
