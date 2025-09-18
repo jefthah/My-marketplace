@@ -310,6 +310,27 @@ try {
   
   console.log('✅ Custom login endpoint created');
   
+  // Emergency fallback - completely bypass database for now
+  app.post('/api/emergency/login', (req, res) => {
+    const { email, password } = req.body;
+    
+    // Test dengan credentials yang sama seperti local
+    if (email === 'jefta.supra@gmail.com' && password === 'Jefta123456') {
+      res.json({
+        success: true,
+        message: 'EMERGENCY LOGIN SUCCESSFUL!',
+        note: 'Database connection bypassed - your credentials are correct!',
+        recommendation: 'Database connection issue in serverless environment'
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: 'Credentials do not match expected values',
+        expected: 'jefta.supra@gmail.com / Jefta123456'
+      });
+    }
+  });
+  
   // Debug endpoint to list users in database
   app.get('/api/debug/users', async (req, res) => {
     try {
