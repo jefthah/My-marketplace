@@ -10,7 +10,7 @@ README.md
 .vscode
 .DS_Store
 uploads/
-src/
+server.js
 create-admin.js
 create-sample-reviews.js
 test-ddos-protection.js

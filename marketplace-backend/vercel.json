@@ -3,22 +3,14 @@
   "name": "marketplace-backend",
   "builds": [
     {
-      "src": "./index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "./api/app.js",
+      "src": "./api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/app.js"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "/api/index.js"
     }
   ]
 }
