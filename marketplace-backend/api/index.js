@@ -134,6 +134,36 @@ try {
     }
   };
 
+  // Simple test endpoint without mongoose
+  app.post('/api/test/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // For now, just check if this matches your local credentials
+      if (email === 'jefta.supra@gmail.com' && password === 'Jefta123456') {
+        res.json({
+          success: true,
+          message: 'Test login successful - credentials match!',
+          note: 'This confirms your credentials are correct. Database connection issue.'
+        });
+        return;
+      }
+      
+      res.status(401).json({
+        success: false,
+        message: 'Test credentials do not match',
+        note: 'Please use the exact same email and password that works in local'
+      });
+      
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Test endpoint error',
+        error: error.message
+      });
+    }
+  });
+
   // Create custom login endpoint with detailed error logging
   app.post('/api/auth/login', async (req, res) => {
     try {
@@ -149,31 +179,78 @@ try {
         });
       }
       
-      // Ensure database connection with retry
-      let retries = 3;
-      while (retries > 0) {
-        try {
-          await connectDB();
-          console.log('✅ Database connection ensured');
-          break;
-        } catch (err) {
-          retries--;
-          console.log(`⚠️ Connection attempt failed, retries left: ${retries}`);
-          if (retries === 0) throw err;
-          await new Promise(resolve => setTimeout(resolve, 1000));
+      // For debugging - direct MongoDB connection without mongoose
+      const { MongoClient } = require('mongodb');
+      
+      let client;
+      try {
+        client = new MongoClient(process.env.MONGODB_URI, {
+          serverSelectionTimeoutMS: 10000,
+          connectTimeoutMS: 10000,
+          socketTimeoutMS: 0,
+          maxPoolSize: 1
+        });
+        
+        console.log('🔄 Connecting to MongoDB...');
+        await client.connect();
+        console.log('✅ Connected to MongoDB directly');
+        
+        const db = client.db();
+        const users = db.collection('users');
+        
+        const user = await users.findOne({ email });
+        console.log('🔍 User found:', user ? 'Yes' : 'No');
+        
+        if (!user) {
+          await client.close();
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials - User not found in database'
+          });
         }
+        
+        // Check password
+        const bcrypt = require('bcryptjs');
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        console.log('🔍 Password valid:', isPasswordValid);
+        
+        await client.close();
+        
+        if (!isPasswordValid) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials - Wrong password'
+          });
+        }
+        
+        // Generate JWT
+        const jwt = require('jsonwebtoken');
+        const token = jwt.sign(
+          { id: user._id },
+          process.env.JWT_SECRET,
+          { expiresIn: process.env.JWT_EXPIRE || '7d' }
+        );
+        
+        console.log('✅ Login successful for:', email);
+        
+        res.status(200).json({
+          success: true,
+          message: 'Login successful',
+          data: {
+            token,
+            user: {
+              id: user._id,
+              username: user.username,
+              email: user.email,
+              role: user.role
+            }
+          }
+        });
+        
+      } catch (dbError) {
+        if (client) await client.close();
+        throw dbError;
       }
-      
-      // Try to load User model
-      const User = require('../src/models/user');
-      console.log('✅ User model loaded');
-      
-      // Find user with explicit timeout and lean query
-      const user = await User.findOne({ email })
-        .select('+password')
-        .lean()
-        .maxTimeMS(5000);
-      console.log('🔍 User found:', user ? 'Yes' : 'No');
       
       if (!user) {
         return res.status(401).json({
