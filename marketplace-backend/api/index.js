@@ -63,6 +63,34 @@ app.get('/debug', (req, res) => {
   });
 });
 
+// Debug endpoint to list users in database
+app.get('/debug/users', async (req, res) => {
+  try {
+    await connectDB();
+    const User = require('../src/models/user');
+    
+    const users = await User.find({}, 'email username role').limit(10);
+    
+    res.json({
+      success: true,
+      message: 'Users in database',
+      count: users.length,
+      users: users.map(user => ({
+        email: user.email,
+        username: user.username,
+        role: user.role
+      }))
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch users',
+      error: error.message
+    });
+  }
+});
+
 // Load routes directly
 try {
   // Connect to database with serverless-friendly settings
