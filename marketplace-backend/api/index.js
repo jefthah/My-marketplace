@@ -73,28 +73,86 @@ try {
     console.error('⚠️ Database connection failed:', err.message);
   });
 
-  // Test loading individual components first
-  try {
-    const authController = require('../src/controllers/authController');
-    console.log('✅ Auth controller loaded');
-    
-    // Create simple login endpoint directly
-    app.post('/api/auth/login', authController.login);
-    app.post('/api/auth/register', authController.registerUser);
-    console.log('✅ Auth endpoints created directly');
-    
-  } catch (err) {
-    console.error('❌ Auth controller failed:', err.message);
-    
-    // Create even simpler fallback
-    app.post('/api/auth/login', (req, res) => {
-      res.status(503).json({
-        success: false,
-        message: 'Auth controller loading failed',
-        error: err.message
+  // Create custom login endpoint with detailed error logging
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      console.log('🔍 Login attempt for:', email);
+      
+      // Basic validation
+      if (!email || !password) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email dan password diperlukan'
+        });
+      }
+      
+      // Try to load User model
+      const User = require('../src/models/user');
+      console.log('✅ User model loaded');
+      
+      // Find user
+      const user = await User.findOne({ email }).select('+password');
+      console.log('🔍 User found:', user ? 'Yes' : 'No');
+      
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid credentials - user not found'
+        });
+      }
+      
+      // Check password
+      const bcrypt = require('bcryptjs');
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      console.log('🔍 Password valid:', isPasswordValid);
+      
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid credentials - wrong password'
+        });
+      }
+      
+      // Generate JWT
+      const jwt = require('jsonwebtoken');
+      const token = jwt.sign(
+        { id: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRE || '7d' }
+      );
+      
+      console.log('✅ Login successful for:', email);
+      
+      res.status(200).json({
+        success: true,
+        message: 'Login successful',
+        data: {
+          token,
+          user: {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+          }
+        }
       });
-    });
-  }
+      
+    } catch (error) {
+      console.error('❌ Login error:', error.message);
+      console.error('❌ Stack:', error.stack);
+      
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error.message,
+        details: 'Check server logs for more information'
+      });
+    }
+  });
+  
+  console.log('✅ Custom login endpoint created');
 
   // Load other routes
   const routes = [
