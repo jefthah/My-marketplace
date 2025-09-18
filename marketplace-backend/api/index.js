@@ -67,60 +67,117 @@ app.post('/api/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     
+    // Debug logging
+    console.log('🔐 Login attempt:', {
+      email: email,
+      password: password ? '[PROVIDED]' : '[MISSING]',
+      emailType: typeof email,
+      passwordType: typeof password,
+      emailLength: email ? email.length : 0,
+      passwordLength: password ? password.length : 0
+    });
+    
     // Basic validation
     if (!email || !password) {
+      console.log('❌ Validation failed: missing email or password');
       return res.status(400).json({
         success: false,
         message: 'Email and password are required'
       });
     }
     
-    // Test credentials for demo
-    if (email === 'jeftasaputra543@gmail.com' && password === 'jefta123456') {
-      return res.json({
-        success: true,
-        message: 'Login successful',
-        data: {
-          user: {
-            id: 'test-user-123',
-            email: email,
-            name: 'Jefta Saputra',
-            role: 'user'
-          },
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QtdXNlci0xMjMiLCJlbWFpbCI6ImplZnRhc2FwdXRyYTU0M0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY5NDEyMzQ1Nn0.test-token'
-        }
+    // Normalize inputs
+    const normalizedEmail = email.toString().trim().toLowerCase();
+    const normalizedPassword = password.toString().trim();
+    
+    console.log('🔍 Normalized inputs:', {
+      normalizedEmail,
+      normalizedPassword: normalizedPassword ? '[PROVIDED]' : '[MISSING]'
+    });
+    
+    // Test credentials for demo - multiple variations
+    const validCredentials = [
+      { email: 'jeftasaputra543@gmail.com', password: 'jefta123456' },
+      { email: 'admin@marketplace.com', password: 'admin123' },
+      { email: 'test@test.com', password: 'test123' }
+    ];
+    
+    for (const cred of validCredentials) {
+      const credEmailNorm = cred.email.toLowerCase().trim();
+      const credPasswordNorm = cred.password.trim();
+      
+      console.log('🔍 Checking against:', {
+        credEmail: credEmailNorm,
+        inputEmail: normalizedEmail,
+        emailMatch: credEmailNorm === normalizedEmail,
+        passwordMatch: credPasswordNorm === normalizedPassword
       });
+      
+      if (credEmailNorm === normalizedEmail && credPasswordNorm === normalizedPassword) {
+        console.log('✅ Login successful for:', normalizedEmail);
+        
+        const isAdmin = credEmailNorm === 'admin@marketplace.com';
+        
+        return res.json({
+          success: true,
+          message: isAdmin ? 'Admin login successful' : 'Login successful',
+          data: {
+            user: {
+              id: isAdmin ? 'admin-123' : 'test-user-123',
+              email: cred.email,
+              name: isAdmin ? 'Admin User' : 'Jefta Saputra',
+              role: isAdmin ? 'admin' : 'user'
+            },
+            token: isAdmin ? 'admin-test-token-' + Date.now() : 'user-test-token-' + Date.now()
+          }
+        });
+      }
     }
     
-    // Test admin credentials
-    if (email === 'admin@marketplace.com' && password === 'admin123') {
-      return res.json({
-        success: true,
-        message: 'Admin login successful',
-        data: {
-          user: {
-            id: 'admin-123',
-            email: email,
-            name: 'Admin User',
-            role: 'admin'
-          },
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluLTEyMyIsImVtYWlsIjoiYWRtaW5AbWFya2V0cGxhY2UuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjk0MTIzNDU2fQ.admin-test-token'
-        }
-      });
-    }
-    
+    console.log('❌ Login failed - invalid credentials');
     return res.status(401).json({
       success: false,
-      message: 'Invalid email or password'
+      message: 'Invalid email or password',
+      debug: {
+        receivedEmail: normalizedEmail,
+        receivedPasswordLength: normalizedPassword.length,
+        validEmails: validCredentials.map(c => c.email)
+      }
     });
     
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ Login error:', error);
     res.status(500).json({
       success: false,
-      message: 'Server error during login'
+      message: 'Server error during login',
+      error: error.message
     });
   }
+});
+
+// Debug endpoint untuk testing
+app.post('/api/auth/debug', (req, res) => {
+  const { email, password } = req.body;
+  
+  res.json({
+    success: true,
+    message: 'Debug endpoint response',
+    received: {
+      email: email,
+      password: password,
+      emailType: typeof email,
+      passwordType: typeof password,
+      hasEmail: !!email,
+      hasPassword: !!password,
+      bodyKeys: Object.keys(req.body)
+    },
+    validCredentials: [
+      'jeftasaputra543@gmail.com / jefta123456',
+      'admin@marketplace.com / admin123',
+      'test@test.com / test123'
+    ],
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.post('/api/auth/register', async (req, res) => {
