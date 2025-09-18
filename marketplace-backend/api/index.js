@@ -65,12 +65,39 @@ app.get('/debug', (req, res) => {
 
 // Load routes directly
 try {
-  // Connect to database
-  const connectDB = require('../src/config/database');
-  connectDB().then(() => {
-    console.log('✅ Database connected successfully');
-  }).catch(err => {
-    console.error('⚠️ Database connection failed:', err.message);
+  // Connect to database with serverless-friendly settings
+  const mongoose = require('mongoose');
+  
+  // Configure mongoose for serverless
+  mongoose.set('bufferCommands', false);
+  mongoose.set('bufferMaxEntries', 0);
+  
+  const connectDB = async () => {
+    if (mongoose.connections[0].readyState) {
+      console.log('✅ Database already connected');
+      return;
+    }
+    
+    try {
+      await mongoose.connect(process.env.MONGODB_URI, {
+        serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+        socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
+        maxPoolSize: 10, // Maintain up to 10 socket connections
+        minPoolSize: 5, // Maintain at least 5 socket connections
+        maxIdleTimeMS: 30000, // Close connections after 30s of inactivity
+        bufferCommands: false, // Disable mongoose buffering
+        bufferMaxEntries: 0 // Disable mongoose buffering
+      });
+      console.log('✅ Database connected successfully');
+    } catch (error) {
+      console.error('⚠️ Database connection failed:', error.message);
+      throw error;
+    }
+  };
+  
+  // Connect immediately
+  connectDB().catch(err => {
+    console.error('Database initialization failed:', err.message);
   });
 
   // Create custom login endpoint with detailed error logging
@@ -88,12 +115,16 @@ try {
         });
       }
       
+      // Ensure database connection
+      await connectDB();
+      console.log('✅ Database connection ensured');
+      
       // Try to load User model
       const User = require('../src/models/user');
       console.log('✅ User model loaded');
       
-      // Find user
-      const user = await User.findOne({ email }).select('+password');
+      // Find user with timeout
+      const user = await User.findOne({ email }).select('+password').maxTimeMS(10000);
       console.log('🔍 User found:', user ? 'Yes' : 'No');
       
       if (!user) {
