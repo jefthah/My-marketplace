@@ -62,250 +62,103 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Simple Auth Endpoints - Defined directly to avoid loading issues
-app.post('/api/auth/login', async (req, res) => {
+// Try to load routes safely - restored original system
+try {
+  console.log('🔄 Starting route loading process...');
+  
+  // Connect to database
   try {
-    const { email, password } = req.body;
-    
-    // Debug logging
-    console.log('🔐 Login attempt:', {
-      email: email,
-      password: password ? '[PROVIDED]' : '[MISSING]',
-      emailType: typeof email,
-      passwordType: typeof password,
-      emailLength: email ? email.length : 0,
-      passwordLength: password ? password.length : 0
-    });
-    
-    // Basic validation
-    if (!email || !password) {
-      console.log('❌ Validation failed: missing email or password');
-      return res.status(400).json({
-        success: false,
-        message: 'Email and password are required'
-      });
-    }
-    
-    // Normalize inputs
-    const normalizedEmail = email.toString().trim().toLowerCase();
-    const normalizedPassword = password.toString().trim();
-    
-    console.log('🔍 Normalized inputs:', {
-      normalizedEmail,
-      normalizedPassword: normalizedPassword ? '[PROVIDED]' : '[MISSING]'
-    });
-    
-    // Test credentials for demo - multiple variations
-    const validCredentials = [
-      { email: 'jeftasaputra543@gmail.com', password: 'jefta123456' },
-      { email: 'admin@marketplace.com', password: 'admin123' },
-      { email: 'test@test.com', password: 'test123' }
-    ];
-    
-    for (const cred of validCredentials) {
-      const credEmailNorm = cred.email.toLowerCase().trim();
-      const credPasswordNorm = cred.password.trim();
-      
-      console.log('🔍 Checking against:', {
-        credEmail: credEmailNorm,
-        inputEmail: normalizedEmail,
-        emailMatch: credEmailNorm === normalizedEmail,
-        passwordMatch: credPasswordNorm === normalizedPassword
-      });
-      
-      if (credEmailNorm === normalizedEmail && credPasswordNorm === normalizedPassword) {
-        console.log('✅ Login successful for:', normalizedEmail);
-        
-        const isAdmin = credEmailNorm === 'admin@marketplace.com';
-        
-        return res.json({
-          success: true,
-          message: isAdmin ? 'Admin login successful' : 'Login successful',
-          data: {
-            user: {
-              id: isAdmin ? 'admin-123' : 'test-user-123',
-              email: cred.email,
-              name: isAdmin ? 'Admin User' : 'Jefta Saputra',
-              role: isAdmin ? 'admin' : 'user'
-            },
-            token: isAdmin ? 'admin-test-token-' + Date.now() : 'user-test-token-' + Date.now()
-          }
-        });
-      }
-    }
-    
-    console.log('❌ Login failed - invalid credentials');
-    return res.status(401).json({
-      success: false,
-      message: 'Invalid email or password',
-      debug: {
-        receivedEmail: normalizedEmail,
-        receivedPasswordLength: normalizedPassword.length,
-        validEmails: validCredentials.map(c => c.email)
-      }
-    });
-    
-  } catch (error) {
-    console.error('❌ Login error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during login',
-      error: error.message
-    });
+    console.log('� Attempting database connection...');
+    const connectDB = require('../src/config/database');
+    connectDB()
+      .then(() => console.log('✅ Database connected successfully'))
+      .catch(err => console.warn('⚠️ DB connection failed:', err.message));
+  } catch (dbError) {
+    console.warn('⚠️ Database module loading failed:', dbError.message);
   }
-});
 
-// Debug endpoint untuk testing
-app.post('/api/auth/debug', (req, res) => {
-  const { email, password } = req.body;
+  // Load routes - restored original system
+  console.log('� Loading original authentication routes...');
   
-  res.json({
-    success: true,
-    message: 'Debug endpoint response',
-    received: {
-      email: email,
-      password: password,
-      emailType: typeof email,
-      passwordType: typeof password,
-      hasEmail: !!email,
-      hasPassword: !!password,
-      bodyKeys: Object.keys(req.body)
-    },
-    validCredentials: [
-      'jeftasaputra543@gmail.com / jefta123456',
-      'admin@marketplace.com / admin123',
-      'test@test.com / test123'
-    ],
-    timestamp: new Date().toISOString()
-  });
-});
-
-app.post('/api/auth/register', async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
-    
-    // Basic validation
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Name, email and password are required'
-      });
-    }
-    
-    // Mock successful registration
-    return res.status(201).json({
-      success: true,
-      message: 'User registered successfully',
-      data: {
-        user: {
-          id: 'new-user-' + Date.now(),
-          name: name,
-          email: email,
-          phone: phone || null,
-          role: 'user'
-        }
-      }
-    });
-    
-  } catch (error) {
-    console.error('Register error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during registration'
-    });
-  }
-});
-
-app.get('/api/auth/me', (req, res) => {
-  const authHeader = req.headers.authorization;
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({
-      success: false,
-      message: 'No token provided'
-    });
+    const authRoutes = require('../src/routes/authRoutes');
+    app.use('/api/auth', authRoutes);
+    console.log('✅ Auth routes loaded - using real database authentication');
+  } catch (err) {
+    console.warn('⚠️ Auth routes failed:', err.message);
   }
   
-  // Mock user data for testing
-  return res.json({
-    success: true,
-    data: {
-      id: 'test-user-123',
-      name: 'Jefta Saputra',
-      email: 'jeftasaputra543@gmail.com',
-      role: 'user',
-      phone: null,
-      address: null
-    }
-  });
-});
-
-// Simple Product Endpoints
-app.get('/api/products', (req, res) => {
-  res.json({
-    success: true,
-    statusCode: 200,
-    data: {
-      products: [
-        {
-          _id: 'product-1',
-          title: 'Sample Digital Product',
-          description: 'This is a sample digital product for testing',
-          price: 99000,
-          category: 'software',
-          images: ['https://via.placeholder.com/300x200'],
-          rating: 4.5,
-          totalReviews: 10,
-          isActive: true
-        },
-        {
-          _id: 'product-2',
-          title: 'Another Digital Product',
-          description: 'Another sample product',
-          price: 149000,
-          category: 'template',
-          images: ['https://via.placeholder.com/300x200'],
-          rating: 4.8,
-          totalReviews: 25,
-          isActive: true
-        }
-      ],
-      pagination: {
-        page: 1,
-        limit: 10,
-        total: 2,
-        pages: 1
-      }
-    },
-    message: 'Products retrieved successfully'
-  });
-});
-
-app.get('/api/products/:id', (req, res) => {
-  const { id } = req.params;
+  try {
+    const productRoutes = require('../src/routes/productRoutes');
+    app.use('/api/products', productRoutes);
+    console.log('✅ Product routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Product routes failed:', err.message);
+  }
   
-  res.json({
-    success: true,
-    statusCode: 200,
-    data: {
-      _id: id,
-      title: 'Sample Digital Product',
-      description: 'This is a sample digital product for testing',
-      price: 99000,
-      category: 'software',
-      images: ['https://via.placeholder.com/300x200'],
-      rating: 4.5,
-      totalReviews: 10,
-      isActive: true,
-      userID: {
-        _id: 'user-123',
-        username: 'jefta',
-        photo: null
-      }
-    },
-    message: 'Product retrieved successfully'
+  try {
+    const orderRoutes = require('../src/routes/orderRoutes');
+    app.use('/api/orders', orderRoutes);
+    console.log('✅ Order routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Order routes failed:', err.message);
+  }
+  
+  try {
+    const paymentRoutes = require('../src/routes/paymentRoutes');
+    app.use('/api/payments', paymentRoutes);
+    console.log('✅ Payment routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Payment routes failed:', err.message);
+  }
+  
+  try {
+    const cartRoutes = require('../src/routes/cartRoutes');
+    app.use('/api/cart', cartRoutes);
+    console.log('✅ Cart routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Cart routes failed:', err.message);
+  }
+  
+  try {
+    const payoutRoutes = require('../src/routes/payoutRoutes');
+    app.use('/api/payouts', payoutRoutes);
+    console.log('✅ Payout routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Payout routes failed:', err.message);
+  }
+  
+  try {
+    const favoriteRoutes = require('../src/routes/favoriteRoutes');
+    app.use('/api/favorites', favoriteRoutes);
+    console.log('✅ Favorite routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Favorite routes failed:', err.message);
+  }
+  
+  try {
+    const reviewRoutes = require('../src/routes/reviewRoutes');
+    app.use('/api/reviews', reviewRoutes);
+    console.log('✅ Review routes loaded');
+  } catch (err) {
+    console.warn('⚠️ Review routes failed:', err.message);
+  }
+
+  console.log('✅ Route loading process completed - using original database system');
+} catch (error) {
+  console.error('❌ Route loading failed completely:', error);
+  
+  // Only show fallback message if everything fails
+  app.post('/api/auth/login', (req, res) => {
+    res.status(503).json({
+      success: false,
+      message: 'Authentication service temporarily unavailable - database connection failed',
+      note: 'Please check environment variables and database connection'
+    });
   });
-});
+}
+
+// Products will be handled by the original productRoutes from database
 
 // API info
 app.get('/api', (req, res) => {
@@ -412,145 +265,20 @@ app.get('/api', (req, res) => {
       }
     },
     documentation: 'See API_DOCUMENTATION.md for detailed request/response examples',
-    testCredentials: {
-      user: {
-        email: 'jeftasaputra543@gmail.com',
-        password: 'jefta123456'
-      },
-      admin: {
-        email: 'admin@marketplace.com',
-        password: 'admin123'
-      }
-    }
-  });
-});
-
-// Simple Cart Endpoints
-app.get('/api/cart', (req, res) => {
-  res.json({
-    success: true,
-    statusCode: 200,
-    data: {
-      cartItems: [],
-      summary: {
-        totalItems: 0,
-        totalQuantity: 0,
-        totalPrice: 0
-      }
-    },
-    message: 'Cart retrieved successfully'
-  });
-});
-
-app.post('/api/cart', (req, res) => {
-  const { productID, quantity = 1 } = req.body;
-  
-  if (!productID) {
-    return res.status(400).json({
-      success: false,
-      message: 'Product ID is required'
-    });
-  }
-  
-  res.json({
-    success: true,
-    statusCode: 200,
-    data: {
-      _id: 'cart-item-' + Date.now(),
-      userID: 'test-user-123',
-      productID: {
-        _id: productID,
-        title: 'Sample Product',
-        price: 99000,
-        images: ['https://via.placeholder.com/300x200']
-      },
-      quantity: quantity,
-      addedAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    },
-    message: 'Product added to cart successfully'
-  });
-});
-
-// Simple Orders Endpoints
-app.get('/api/orders', (req, res) => {
-  res.json({
-    success: true,
-    statusCode: 200,
-    data: {
-      orders: [],
-      pagination: {
-        currentPage: 1,
-        totalPages: 1,
-        totalOrders: 0,
-        hasNext: false,
-        hasPrev: false
-      }
-    },
-    message: 'Orders retrieved successfully'
-  });
-});
-
-// Simple Reviews Endpoints
-app.get('/api/reviews', (req, res) => {
-  res.json({
-    success: true,
-    data: {
-      reviews: [],
-      pagination: {
-        currentPage: 1,
-        totalPages: 1,
-        totalItems: 0,
-        limit: 10
-      }
-    }
-  });
-});
-
-app.get('/api/reviews/product/:productId', (req, res) => {
-  const { productId } = req.params;
-  
-  res.json({
-    success: true,
-    data: {
-      reviews: [
-        {
-          id: 'review-1',
-          rating: 5,
-          comment: 'Great product! Highly recommended.',
-          user_id: 'user-123',
-          product_id: productId,
-          is_verified_purchase: true,
-          helpful_count: 2,
-          createdAt: new Date().toISOString(),
-          user: {
-            name: 'John Doe',
-            username: 'johndoe'
-          }
-        }
+    note: 'This API uses database authentication. Use credentials from your MongoDB Atlas database.',
+    databaseCredentials: {
+      availableUsers: [
+        'admin@jsdesign.com',
+        'super.admin@jsdesign.com'
       ],
-      pagination: {
-        currentPage: 1,
-        totalPages: 1,
-        totalItems: 1,
-        limit: 10
-      },
-      statistics: {
-        averageRating: 5.0,
-        totalReviews: 1,
-        rating5: 1,
-        rating4: 0,
-        rating3: 0,
-        rating2: 0,
-        rating1: 0
-      }
+      note: 'Passwords are hashed in database. Use the original passwords you set when creating these users.'
     }
   });
 });
 
-// Optional: Try to load additional routes if available
-console.log('🔄 All basic endpoints are defined directly in this file');
-console.log('✅ API is ready to serve requests');
+// All endpoints will be handled by original routes with database connection
+
+console.log('✅ API is ready to serve requests with database authentication');
 
 // 404 handler
 app.use((req, res) => {
