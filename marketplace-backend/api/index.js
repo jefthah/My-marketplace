@@ -73,10 +73,28 @@ try {
     console.error('⚠️ Database connection failed:', err.message);
   });
 
-  // Load auth routes
-  const authRoutes = require('../src/routes/authRoutes');
-  app.use('/api/auth', authRoutes);
-  console.log('✅ Auth routes loaded');
+  // Test loading individual components first
+  try {
+    const authController = require('../src/controllers/authController');
+    console.log('✅ Auth controller loaded');
+    
+    // Create simple login endpoint directly
+    app.post('/api/auth/login', authController.login);
+    app.post('/api/auth/register', authController.registerUser);
+    console.log('✅ Auth endpoints created directly');
+    
+  } catch (err) {
+    console.error('❌ Auth controller failed:', err.message);
+    
+    // Create even simpler fallback
+    app.post('/api/auth/login', (req, res) => {
+      res.status(503).json({
+        success: false,
+        message: 'Auth controller loading failed',
+        error: err.message
+      });
+    });
+  }
 
   // Load other routes
   const routes = [
