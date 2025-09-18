@@ -49,6 +49,35 @@ try {
   console.log('✅ Auth routes loaded');
 } catch (err) {
   console.error('❌ Auth routes failed:', err.message);
+  
+  // Fallback auth endpoints jika routes gagal load
+  const { registerUser, login } = require('../src/controllers/authController');
+  
+  app.post('/api/auth/register', async (req, res) => {
+    try {
+      await registerUser(req, res);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Registration failed',
+        error: error.message
+      });
+    }
+  });
+  
+  app.post('/api/auth/login', async (req, res) => {
+    try {
+      await login(req, res);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Login failed',
+        error: error.message
+      });
+    }
+  });
+  
+  console.log('✅ Fallback auth endpoints created');
 }
 
 try {
