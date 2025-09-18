@@ -42,9 +42,11 @@ app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Marketplace Backend API is running!',
-    version: '1.0.0',
+    version: '2.0.0-standalone',
+    buildDate: '2025-09-18T14:30:00Z',
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'production'
+    environment: process.env.NODE_ENV || 'production',
+    features: ['standalone-auth', 'direct-endpoints', 'no-db-required']
   });
 });
 
@@ -52,8 +54,11 @@ app.get('/', (req, res) => {
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
-    message: 'Server is running',
-    timestamp: new Date().toISOString()
+    message: 'Server is running with standalone endpoints',
+    version: '2.0.0-standalone',
+    buildDate: '2025-09-18T14:30:00Z',
+    timestamp: new Date().toISOString(),
+    authEndpoints: 'active'
   });
 });
 
