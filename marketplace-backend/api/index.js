@@ -62,16 +62,106 @@ app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Marketplace API endpoints',
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'production',
     endpoints: {
-      auth: '/api/auth',
-      products: '/api/products',
-      orders: '/api/orders',
-      payments: '/api/payments',
-      cart: '/api/cart',
-      payouts: '/api/payouts',
-      favorites: '/api/favorites',
-      reviews: '/api/reviews'
-    }
+      // Authentication endpoints
+      auth: {
+        base: '/api/auth',
+        endpoints: {
+          register: 'POST /api/auth/register',
+          login: 'POST /api/auth/login',
+          logout: 'POST /api/auth/logout',
+          me: 'GET /api/auth/me',
+          forgotPassword: 'POST /api/auth/forgot-password',
+          resetPassword: 'PUT /api/auth/reset-password/:resetToken',
+          profile: 'PUT /api/auth/profile',
+          profileImage: 'POST /api/auth/profile/image',
+          changePassword: 'PUT /api/auth/change-password'
+        }
+      },
+      // Product endpoints
+      products: {
+        base: '/api/products',
+        endpoints: {
+          getAll: 'GET /api/products',
+          getById: 'GET /api/products/:id',
+          getByCategory: 'GET /api/products/category/:category',
+          create: 'POST /api/products (Admin)',
+          update: 'PUT /api/products/:id (Admin)',
+          delete: 'DELETE /api/products/:id (Admin)',
+          adminProducts: 'GET /api/products/admin/my-products (Admin)',
+          stats: 'GET /api/products/admin/stats (Admin)'
+        }
+      },
+      // Cart endpoints
+      cart: {
+        base: '/api/cart',
+        endpoints: {
+          getCart: 'GET /api/cart',
+          addToCart: 'POST /api/cart',
+          updateCart: 'PUT /api/cart/:productID',
+          removeFromCart: 'DELETE /api/cart/:productID',
+          clearCart: 'DELETE /api/cart',
+          getCount: 'GET /api/cart/count'
+        }
+      },
+      // Order endpoints
+      orders: {
+        base: '/api/orders',
+        endpoints: {
+          getUserOrders: 'GET /api/orders',
+          getOrderById: 'GET /api/orders/:orderId',
+          createFromCart: 'POST /api/orders/from-cart',
+          createInstant: 'POST /api/orders/instant'
+        }
+      },
+      // Payment endpoints
+      payments: {
+        base: '/api/payments',
+        endpoints: {
+          createPayment: 'POST /api/payments',
+          getUserPayments: 'GET /api/payments',
+          getPaymentById: 'GET /api/payments/:paymentId',
+          getInstantPayment: 'GET /api/payments/instant/:paymentId',
+          checkStatus: 'GET /api/payments/:paymentId/status',
+          createInstant: 'POST /api/payments/instant'
+        }
+      },
+      // Payout endpoints
+      payouts: {
+        base: '/api/payouts',
+        endpoints: {
+          getPayouts: 'GET /api/payouts',
+          createPayout: 'POST /api/payouts',
+          updatePayout: 'PUT /api/payouts/:id'
+        }
+      },
+      // Favorite endpoints
+      favorites: {
+        base: '/api/favorites',
+        endpoints: {
+          toggleFavorite: 'POST /api/favorites/toggle/:productId',
+          getUserFavorites: 'GET /api/favorites'
+        }
+      },
+      // Review endpoints
+      reviews: {
+        base: '/api/reviews',
+        endpoints: {
+          getAllReviews: 'GET /api/reviews',
+          getUserReviews: 'GET /api/reviews/user',
+          getProductReviews: 'GET /api/reviews/product/:productId',
+          createReview: 'POST /api/reviews',
+          updateReview: 'PUT /api/reviews/:reviewId',
+          deleteReview: 'DELETE /api/reviews/:reviewId',
+          markHelpful: 'POST /api/reviews/:reviewId/helpful',
+          hasReviewed: 'GET /api/reviews/has-reviewed/:productId',
+          canReview: 'GET /api/reviews/can-review/:productId/:orderId'
+        }
+      }
+    },
+    documentation: 'See API_DOCUMENTATION.md for detailed request/response examples'
   });
 });
 
@@ -104,17 +194,42 @@ try {
   console.log('✅ All routes loaded successfully');
 } catch (error) {
   console.warn('⚠️ Some routes failed to load:', error.message);
+  console.error('Route loading error details:', error);
   
-  // Fallback API endpoints for testing
+  // Fallback API endpoints for testing when main routes fail
   app.get('/api/auth/test', (req, res) => {
-    res.json({ success: true, message: 'Auth endpoint working', service: 'fallback' });
+    res.json({ 
+      success: true, 
+      message: 'Auth endpoint working (fallback mode)', 
+      service: 'fallback',
+      note: 'Main auth routes failed to load'
+    });
+  });
+  
+  app.post('/api/auth/login', (req, res) => {
+    res.status(503).json({ 
+      success: false, 
+      message: 'Auth service temporarily unavailable (fallback mode)', 
+      service: 'fallback',
+      note: 'Please check database connection and route configuration'
+    });
   });
   
   app.get('/api/products', (req, res) => {
     res.json({ 
       success: true, 
-      message: 'Products endpoint working', 
+      message: 'Products endpoint working (fallback mode)', 
       data: [],
+      service: 'fallback',
+      note: 'Main product routes failed to load'
+    });
+  });
+  
+  app.get('/api/cart', (req, res) => {
+    res.json({ 
+      success: true, 
+      message: 'Cart endpoint working (fallback mode)', 
+      data: { cartItems: [], summary: { totalItems: 0, totalPrice: 0 } },
       service: 'fallback'
     });
   });
@@ -125,18 +240,15 @@ app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: `Route ${req.method} ${req.originalUrl} not found`,
-    availableEndpoints: {
-      root: '/',
-      health: '/health',
-      api: '/api',
-      auth: '/api/auth',
-      products: '/api/products',
-      orders: '/api/orders',
-      payments: '/api/payments',
-      cart: '/api/cart',
-      payouts: '/api/payouts',
-      favorites: '/api/favorites',
-      reviews: '/api/reviews'
+    suggestion: `Try visiting GET /api to see all available endpoints`,
+    quickLinks: {
+      apiInfo: 'GET /api',
+      health: 'GET /health',
+      auth: 'POST /api/auth/login',
+      products: 'GET /api/products',
+      cart: 'GET /api/cart',
+      orders: 'GET /api/orders',
+      reviews: 'GET /api/reviews'
     }
   });
 });
