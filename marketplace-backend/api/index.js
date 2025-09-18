@@ -130,7 +130,12 @@ async function initializeApp() {
   }
 }
 
-// Initialize on first request
+// Initialize immediately
+initializeApp().catch(err => {
+  console.error('Failed to initialize app:', err);
+});
+
+// Initialize on first request as backup
 app.use(async (req, res, next) => {
   if (!isInitialized) {
     await initializeApp();
