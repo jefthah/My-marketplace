@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const connectDB = require('./config/database');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -92,6 +93,11 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
   });
+});
+
+// Connect to database on startup for serverless
+connectDB().catch(err => {
+  console.error('Database connection failed on startup:', err.message);
 });
 
 // Routes
