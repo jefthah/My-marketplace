@@ -90,6 +90,24 @@ app.post('/api/test/login', (req, res) => {
   }
 });
 
+// Real login endpoint with database (will be implemented next)
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    res.status(503).json({
+      success: false,
+      message: 'Database authentication not implemented yet',
+      note: 'Use /api/test/login for testing',
+      nextSteps: 'Will implement MongoDB connection and real auth'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+});
+
 // API info endpoint
 app.get('/api', (req, res) => {
   res.status(200).json({
