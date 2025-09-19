@@ -1,9 +1,5 @@
-// Load environment variables
-require('dotenv').config();
-
-// Create a completely standalone Express app for debugging
+// ULTRA-MINIMAL Express app - NO DOTENV, NO EXTRA DEPENDENCIES
 const express = require('express');
-const cors = require('cors');
 
 const app = express();
 
@@ -11,42 +7,24 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Request logging middleware
+// Basic CORS - allow all origins for testing
 app.use((req, res, next) => {
-  console.log(`📥 ${req.method} ${req.path} - ${new Date().toISOString()}`);
-  console.log('📋 Headers:', JSON.stringify(req.headers, null, 2));
-  if (req.body && Object.keys(req.body).length > 0) {
-    console.log('📦 Body:', JSON.stringify(req.body, null, 2));
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
   }
-  next();
 });
 
-// CORS configuration
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin
-    if (!origin) return callback(null, true);
-    
-    const allowedOrigins = [
-      'http://localhost:5173', 
-      'http://localhost:3000',
-      'https://my-marketplace-dx.vercel.app',
-      /https:\/\/.*\.vercel\.app$/
-    ];
-    
-    const isAllowed = allowedOrigins.some(allowedOrigin => {
-      if (allowedOrigin instanceof RegExp) {
-        return allowedOrigin.test(origin);
-      }
-      return allowedOrigin === origin;
-    });
-    
-    callback(null, isAllowed);
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cache-Control', 'X-Requested-With']
-}));
+// Request logging
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.path} - ${new Date().toISOString()}`);
+  next();
+});
 
 // Root route
 app.get('/', (req, res) => {
@@ -59,16 +37,15 @@ app.get('/', (req, res) => {
   });
 });
 
-// Debug endpoint
+// Debug endpoint - NO ENV VARS
 app.get('/debug', (req, res) => {
   console.log('🔍 Debug endpoint called');
   res.json({
     success: true,
-    message: 'Debug endpoint working!',
-    environment: process.env.NODE_ENV,
-    hasMongoUri: !!process.env.MONGODB_URI,
-    hasJwtSecret: !!process.env.JWT_SECRET,
-    timestamp: new Date().toISOString()
+    message: 'ULTRA-MINIMAL Debug endpoint working!',
+    version: 'ultra-minimal-v1',
+    timestamp: new Date().toISOString(),
+    note: 'No dotenv, no mongoose, no extra dependencies'
   });
 });
 
@@ -83,82 +60,45 @@ app.post('/test', (req, res) => {
   });
 });
 
-// Simple test login endpoint WITHOUT any database
+// ULTRA-SIMPLE test login
 app.post('/api/test/login', (req, res) => {
-  console.log('🔍 Test login endpoint called');
-  console.log('📝 Request body:', req.body);
-  console.log('📍 Request path:', req.path);
-  console.log('🔗 Request URL:', req.url);
+  console.log('🔍 ULTRA-MINIMAL Test login called');
+  console.log('📝 Body:', req.body);
   
-  const { email, password } = req.body;
+  const { email, password } = req.body || {};
   
-  // Test credentials without touching database
   if (email === 'jefta.supra@gmail.com' && password === 'Jefta123456') {
-    console.log('✅ Credentials match - success response');
+    console.log('✅ SUCCESS!');
     res.json({
       success: true,
-      message: 'Test login berhasil!',
+      message: 'ULTRA-MINIMAL login berhasil!',
       data: {
-        token: 'fake-jwt-token-for-testing',
-        user: {
-          id: 'test-id',
-          email: email,
-          username: 'Test User',
-          role: 'user'
-        }
-      },
-      note: 'Ini adalah endpoint test tanpa database - STANDALONE',
-      debug: {
-        receivedEmail: email,
-        receivedPassword: password ? '***' : 'empty',
-        timestamp: new Date().toISOString()
+        token: 'ultra-minimal-token',
+        user: { email, id: '123' }
       }
     });
   } else {
-    console.log('❌ Credentials do not match');
-    console.log('Expected: jefta.supra@gmail.com / Jefta123456');
-    console.log('Received:', email, '/', password ? '***' : 'empty');
-    
+    console.log('❌ FAILED!');
     res.status(401).json({
       success: false,
-      message: 'Kredensial test tidak cocok',
-      expected: 'jefta.supra@gmail.com / Jefta123456',
-      received: {
-        email: email,
-        passwordProvided: !!password
-      }
-    });
-  }
-});
-
-// Real login endpoint with database (will be implemented next)
-app.post('/api/auth/login', async (req, res) => {
-  try {
-    res.status(503).json({
-      success: false,
-      message: 'Database authentication not implemented yet',
-      note: 'Use /api/test/login for testing',
-      nextSteps: 'Will implement MongoDB connection and real auth'
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Internal server error',
-      error: error.message
+      message: 'ULTRA-MINIMAL login gagal',
+      received: { email, hasPassword: !!password }
     });
   }
 });
 
 // API info endpoint
 app.get('/api', (req, res) => {
-  res.status(200).json({
+  console.log('📋 API info called');
+  res.json({
     success: true,
-    message: 'Standalone API - Debug Mode',
-    availableEndpoints: [
+    message: 'ULTRA-MINIMAL API',
+    version: 'ultra-minimal-v1',
+    endpoints: [
       'GET /',
       'GET /debug', 
       'POST /api/test/login',
-      'GET /api'
+      'POST /test'
     ]
   });
 });
