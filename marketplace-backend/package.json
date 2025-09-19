@@ -1,18 +1,17 @@
 {
   "name": "marketplace-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A comprehensive marketplace backend built with Node.js, Express.js, and MongoDB",
+  "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "echo 'Build completed'",
-    "vercel": "node index.js",
-    "seed": "node src/seeder.js"
+    "seed": "node src/seeder.js",
+    "create-admin": "node create-admin.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["marketplace", "ecommerce", "api", "nodejs", "express", "mongodb"],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",

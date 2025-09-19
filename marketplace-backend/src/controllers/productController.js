@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const Review = require('../models/reviewSimple');
+const Review = require('../models/review');
 const mongoose = require('mongoose');
 const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/apiError');
