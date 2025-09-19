@@ -127,18 +127,18 @@ const Navigation: React.FC<NavigationProps> = ({ onCartClick, cartItemCount = 0 
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo & Desktop Menu */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 sm:space-x-8">
             <div 
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-1.5 sm:space-x-2 cursor-pointer"
               onClick={() => navigate('/')}
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-700 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">J</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-400 to-blue-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg sm:text-xl">J</span>
               </div>
-              <span className="text-xl font-bold text-blue-900">D'SIGN</span>
+              <span className="text-lg sm:text-xl font-bold text-blue-900">D'SIGN</span>
             </div>
 
             <div className="hidden md:flex space-x-6">
@@ -161,21 +161,26 @@ const Navigation: React.FC<NavigationProps> = ({ onCartClick, cartItemCount = 0 
           </div>
 
           {/* Right Side */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Search Bar */}
-            <div className="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2">
+            <div className="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2">
               <Search className="w-4 h-4 text-gray-500 mr-2" />
-              <input type="text" placeholder="Cari design..." className="bg-transparent outline-none text-sm w-48" />
+              <input type="text" placeholder="Cari design..." className="bg-transparent outline-none text-sm w-32 xl:w-48" />
             </div>
+
+            {/* Mobile Search Button */}
+            <button className="lg:hidden p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Search className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
+            </button>
 
             {/* Cart Icon with Badge */}
             <button 
               onClick={() => onCartClick && onCartClick()}
-              className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="relative p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <ShoppingCart className="w-6 h-6 text-gray-700" />
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-0.5 sm:-top-1 -right-0.5 sm:-right-1 bg-blue-600 text-white text-xs font-bold rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center">
                   {cartItemCount > 99 ? '99+' : cartItemCount}
                 </span>
               )}
@@ -254,8 +259,8 @@ const Navigation: React.FC<NavigationProps> = ({ onCartClick, cartItemCount = 0 
             )}
 
             {/* Mobile Menu Toggle */}
-            <button onClick={toggleMenu} className="md:hidden p-2">
-              {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+            <button onClick={toggleMenu} className="md:hidden p-1.5 sm:p-2">
+              {isMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" />}
             </button>
           </div>
         </div>
@@ -263,36 +268,50 @@ const Navigation: React.FC<NavigationProps> = ({ onCartClick, cartItemCount = 0 
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-16 right-0 w-full bg-white border-t md:hidden mobile-menu ${isMenuOpen ? "active" : ""}`}
+        className={`fixed top-14 sm:top-16 right-0 w-full bg-white border-t md:hidden mobile-menu shadow-lg ${isMenuOpen ? "active" : ""}`}
       >
-        <div className="px-4 py-2">
-          <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 mb-4">
+        <div className="px-4 py-4">
+          {/* Mobile Search */}
+          <div className="flex items-center bg-gray-100 rounded-full px-4 py-2.5 mb-4 lg:hidden">
             <Search className="w-4 h-4 text-gray-500 mr-2" />
             <input type="text" placeholder="Cari design..." className="bg-transparent outline-none text-sm flex-1" />
           </div>
-          {navItems.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.targetId}`}
-              onClick={(e) => handleNavClick(e, item.targetId)}
-              className={`block py-2 text-gray-700 ${
-                activeSection === item.targetId ? "text-blue-600 font-medium" : ""
-              }`}
+          
+          {/* Navigation Links */}
+          <div className="space-y-1">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.targetId}`}
+                onClick={(e) => handleNavClick(e, item.targetId)}
+                className={`block py-3 px-2 text-gray-700 rounded-lg transition-colors ${
+                  activeSection === item.targetId 
+                    ? "text-blue-600 font-medium bg-blue-50" 
+                    : "hover:bg-gray-50"
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+            
+            {/* Cart Link */}
+            <button 
+              onClick={() => {
+                if (onCartClick) {
+                  onCartClick();
+                }
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-left py-3 px-2 text-gray-700 flex items-center justify-between rounded-lg hover:bg-gray-50 transition-colors"
             >
-              {item.label}
-            </a>
-          ))}
-          <button 
-            onClick={onCartClick}
-            className="w-full text-left py-2 text-gray-700 flex items-center justify-between"
-          >
-            <span>Keranjang</span>
-            {cartItemCount > 0 && (
-              <span className="bg-blue-600 text-white text-xs font-bold rounded-full px-2 py-1">
-                {cartItemCount}
-              </span>
-            )}
-          </button>
+              <span>Keranjang</span>
+              {cartItemCount > 0 && (
+                <span className="bg-blue-600 text-white text-xs font-bold rounded-full px-2 py-1">
+                  {cartItemCount}
+                </span>
+              )}
+            </button>
+          </div>
           {/* User section for mobile */}
           {isAuthenticated && user ? (
             <div className="border-t border-gray-200 pt-4 mt-4">
