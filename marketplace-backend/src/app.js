@@ -107,13 +107,42 @@ app.get('/debug', (req, res) => {
   });
 });
 
-// Connect to database on startup for serverless
-connectDB().catch(err => {
-  console.error('Database connection failed on startup:', err.message);
+// Simple test login endpoint without database
+app.post('/api/test/login', (req, res) => {
+  const { email, password } = req.body;
+  
+  // Test credentials without touching database
+  if (email === 'jefta.supra@gmail.com' && password === 'Jefta123456') {
+    res.json({
+      success: true,
+      message: 'Test login berhasil!',
+      data: {
+        token: 'fake-jwt-token-for-testing',
+        user: {
+          id: 'test-id',
+          email: email,
+          username: 'Test User',
+          role: 'user'
+        }
+      },
+      note: 'Ini adalah endpoint test tanpa database'
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Kredensial test tidak cocok',
+      expected: 'jefta.supra@gmail.com / Jefta123456'
+    });
+  }
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
+// Temporarily disable database connection for debugging
+// connectDB().catch(err => {
+//   console.error('Database connection failed on startup:', err.message);
+// });
+
+// Routes - temporarily disable auth routes for debugging
+// app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
