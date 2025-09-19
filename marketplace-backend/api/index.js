@@ -11,6 +11,16 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.path} - ${new Date().toISOString()}`);
+  console.log('📋 Headers:', JSON.stringify(req.headers, null, 2));
+  if (req.body && Object.keys(req.body).length > 0) {
+    console.log('📦 Body:', JSON.stringify(req.body, null, 2));
+  }
+  next();
+});
+
 // CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
@@ -51,6 +61,7 @@ app.get('/', (req, res) => {
 
 // Debug endpoint
 app.get('/debug', (req, res) => {
+  console.log('🔍 Debug endpoint called');
   res.json({
     success: true,
     message: 'Debug endpoint working!',
@@ -61,12 +72,29 @@ app.get('/debug', (req, res) => {
   });
 });
 
+// Simple POST test endpoint
+app.post('/test', (req, res) => {
+  console.log('🧪 Simple POST test called');
+  res.json({
+    success: true,
+    message: 'POST request works!',
+    body: req.body,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Simple test login endpoint WITHOUT any database
 app.post('/api/test/login', (req, res) => {
+  console.log('🔍 Test login endpoint called');
+  console.log('📝 Request body:', req.body);
+  console.log('📍 Request path:', req.path);
+  console.log('🔗 Request URL:', req.url);
+  
   const { email, password } = req.body;
   
   // Test credentials without touching database
   if (email === 'jefta.supra@gmail.com' && password === 'Jefta123456') {
+    console.log('✅ Credentials match - success response');
     res.json({
       success: true,
       message: 'Test login berhasil!',
@@ -79,13 +107,26 @@ app.post('/api/test/login', (req, res) => {
           role: 'user'
         }
       },
-      note: 'Ini adalah endpoint test tanpa database - STANDALONE'
+      note: 'Ini adalah endpoint test tanpa database - STANDALONE',
+      debug: {
+        receivedEmail: email,
+        receivedPassword: password ? '***' : 'empty',
+        timestamp: new Date().toISOString()
+      }
     });
   } else {
+    console.log('❌ Credentials do not match');
+    console.log('Expected: jefta.supra@gmail.com / Jefta123456');
+    console.log('Received:', email, '/', password ? '***' : 'empty');
+    
     res.status(401).json({
       success: false,
       message: 'Kredensial test tidak cocok',
-      expected: 'jefta.supra@gmail.com / Jefta123456'
+      expected: 'jefta.supra@gmail.com / Jefta123456',
+      received: {
+        email: email,
+        passwordProvided: !!password
+      }
     });
   }
 });
