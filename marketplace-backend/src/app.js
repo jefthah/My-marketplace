@@ -95,6 +95,18 @@ app.get('/', (req, res) => {
   });
 });
 
+// Debug endpoint for troubleshooting
+app.get('/debug', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is working!',
+    environment: process.env.NODE_ENV,
+    hasMongoUri: !!process.env.MONGODB_URI,
+    hasJwtSecret: !!process.env.JWT_SECRET,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Connect to database on startup for serverless
 connectDB().catch(err => {
   console.error('Database connection failed on startup:', err.message);

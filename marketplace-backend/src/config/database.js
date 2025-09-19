@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-// Configure mongoose for serverless
-mongoose.set('bufferCommands', false);
-
 let cachedConnection = null;
 
 const connectDB = async () => {
@@ -15,14 +12,9 @@ const connectDB = async () => {
     console.log('🔄 Creating new database connection...');
     
     const connection = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 10000, // 10 seconds
-      socketTimeoutMS: 0, // No timeout
-      maxPoolSize: 1, // Single connection for serverless
-      minPoolSize: 0,
-      maxIdleTimeMS: 30000,
-      bufferCommands: false,
-      useNewUrlParser: true,
-      useUnifiedTopology: true
+      serverSelectionTimeoutMS: 10000,
+      maxPoolSize: 1,
+      minPoolSize: 0
     });
     
     cachedConnection = connection;
