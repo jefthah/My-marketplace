@@ -11,11 +11,8 @@ const connectDB = async () => {
   try {
     console.log('🔄 Creating new database connection...');
     
-    const connection = await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 10000,
-      maxPoolSize: 1,
-      minPoolSize: 0
-    });
+    // Simple connection for both local and serverless
+    const connection = await mongoose.connect(process.env.MONGODB_URI);
     
     cachedConnection = connection;
     console.log('✅ Database connection established');

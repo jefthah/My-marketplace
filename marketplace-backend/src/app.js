@@ -5,17 +5,17 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
-// const connectDB = require('./config/database'); // DISABLED FOR DEBUGGING
+const connectDB = require('./config/database');
 
-// Import routes - TEMPORARILY DISABLED FOR DEBUGGING
-// const authRoutes = require('./routes/authRoutes');
-// const productRoutes = require('./routes/productRoutes');
-// const orderRoutes = require('./routes/orderRoutes');
-// const paymentRoutes = require('./routes/paymentRoutes');
-// const cartRoutes = require('./routes/cartRoutes');
-// const payoutRoutes = require('./routes/payoutRoutes');
-// const favoriteRoutes = require('./routes/favoriteRoutes');
-// const reviewRoutes = require('./routes/reviewRoutes');
+// Import routes - ENABLED BACK
+const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+const payoutRoutes = require('./routes/payoutRoutes');
+const favoriteRoutes = require('./routes/favoriteRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 // Import error handler
 const errorHandler = require('./middleware/errorHandler');
@@ -136,20 +136,20 @@ app.post('/api/test/login', (req, res) => {
   }
 });
 
-// Temporarily disable database connection for debugging
-// connectDB().catch(err => {
-//   console.error('Database connection failed on startup:', err.message);
-// });
+// Connect to database on startup for serverless
+connectDB().catch(err => {
+  console.error('Database connection failed on startup:', err.message);
+});
 
-// Routes - ALL DISABLED FOR DEBUGGING
-// app.use('/api/auth', authRoutes);
-// app.use('/api/products', productRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/payments', paymentRoutes);
-// app.use('/api/cart', cartRoutes);
-// app.use('/api/payouts', payoutRoutes);
-// app.use('/api/favorites', favoriteRoutes);
-// app.use('/api/reviews', reviewRoutes);
+// Routes - ENABLED BACK
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/payouts', payoutRoutes);
+app.use('/api/favorites', favoriteRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
