@@ -1,20 +1,20 @@
 // Load environment variables
 require('dotenv').config();
 
-// Always export the main app. If it fails to load, return explicit 500.
-try {
-  module.exports = require('../src/app');
-  // eslint-disable-next-line no-console
-  console.log('✅ Main app loaded');
-} catch (error) {
-  const express = require('express');
-  const app = express();
-  app.get('*', (_req, res) => {
-    res.status(500).json({
+// Import app and DB connector
+const app = require('../src/app');
+const connectDB = require('../src/config/database');
+
+// Vercel handler: ensure DB is connected before delegating to Express
+module.exports = async (req, res) => {
+  try {
+    await connectDB();
+  } catch (error) {
+    return res.status(503).json({
       success: false,
-      message: 'Failed to load main application',
+      message: 'Database connection not ready',
       error: error.message
     });
-  });
-  module.exports = app;
-}
+  }
+  return app(req, res);
+};
