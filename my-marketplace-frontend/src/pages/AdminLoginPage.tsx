@@ -29,7 +29,8 @@ const AdminLoginPage: React.FC = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${base}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

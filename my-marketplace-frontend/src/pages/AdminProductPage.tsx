@@ -13,7 +13,8 @@ const AdminProductPage: React.FC = () => {
     try {
       const token = localStorage.getItem('adminToken');
       
-      const response = await fetch('http://localhost:3000/api/products', {
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${base}/products`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

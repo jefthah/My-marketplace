@@ -213,7 +213,8 @@ const SignupPage = () => {
         submitData.append('photo', formData.profileImage); // Changed from 'profileImage' to 'photo'
       }
 
-      const response = await fetch('http://localhost:3000/api/auth/register', {
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${base}/auth/register`, {
         method: 'POST',
         body: submitData
       });
