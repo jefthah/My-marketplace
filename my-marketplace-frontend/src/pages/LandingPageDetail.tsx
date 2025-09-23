@@ -45,6 +45,7 @@ const LandingPageDetail: React.FC = () => {
   totalReviews: 24,
     sales: 234,
   isActive: true,
+    hasSourceCode: false,
     images: [
       { id: 1, url: "https://via.placeholder.com/800x500/3B82F6/ffffff?text=Desktop+View", thumb: "https://via.placeholder.com/150x100/3B82F6/ffffff?text=Desktop", label: "Desktop" },
       { id: 2, url: "https://via.placeholder.com/800x500/60A5FA/ffffff?text=Mobile+View", thumb: "https://via.placeholder.com/150x100/60A5FA/ffffff?text=Mobile", label: "Mobile" },
