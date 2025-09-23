@@ -9,7 +9,9 @@ import { ChevronRight } from 'lucide-react';
 
 import type { Product as ProductType } from '../types';
 
-interface ProductData extends Omit<ProductType, 'userID' | 'description' | 'category' | 'images' | 'videoUrl' | 'benefit1' | 'benefit2' | 'benefit3' | 'createdAt' | 'updatedAt'> {
+// Use Partial of Product to relax strict typing for this showcase page,
+// then add showcase-only fields below
+type ProductData = Omit<Partial<ProductType>, 'images'> & {
   designer: {
     name: string;
     avatar: string;
@@ -18,8 +20,8 @@ interface ProductData extends Omit<ProductType, 'userID' | 'description' | 'cate
   originalPrice: number;
   discount: number;
   sales: number;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   images: {
     id: number;
     url: string;
@@ -93,7 +95,7 @@ const LandingPageDetail: React.FC = () => {
 
           {/* Right Column */}
           <div className="lg:col-span-1">
-            <PurchaseBox product={productData} />
+            <PurchaseBox product={productData as any} />
           </div>
         </div>
 

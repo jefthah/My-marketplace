@@ -11,13 +11,13 @@ interface Designer {
 
 import type { Product as ProductType } from '../../types';
 
-interface Product extends Omit<ProductType, 'userID' | 'description' | 'category' | 'images' | 'videoUrl' | 'benefit1' | 'benefit2' | 'benefit3' | 'createdAt' | 'updatedAt'> {
+type Product = Partial<Omit<ProductType, 'userID' | 'description' | 'category' | 'images' | 'videoUrl' | 'benefit1' | 'benefit2' | 'benefit3' | 'createdAt' | 'updatedAt'>> & {
   designer: Designer;
   originalPrice: number;
   discount: number;
   sales: number;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
 }
 
 interface PurchaseBoxProps {

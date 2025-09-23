@@ -3,9 +3,9 @@ import {  CheckCircle, Star, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface ProductInfoProps {
   product: {
-    title: string;
-    reviews: number;
-    rating: number;
+    title?: string;
+    reviews?: number;
+    rating?: number;
   };
   activeTab: string;
   setActiveTab: (tab: string) => void;
