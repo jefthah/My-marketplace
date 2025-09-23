@@ -38,8 +38,9 @@ function App() {
             {/* Route untuk pembayaran */}
             <Route path="/payment" element={<PaymentPage />} />
             
-            {/* Route untuk sukses pembayaran */}
+            {/* Route untuk sukses pembayaran (dua pola path) */}
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
             
             {/* Route untuk guest checkout */}
             <Route path="/guest-checkout" element={<GuestCheckoutPage />} />
