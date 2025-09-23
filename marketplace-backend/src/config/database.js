@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 let cachedConnection = null;
 
 const connectDB = async () => {
+  // Disable buffering so queries fail fast if not connected
+  mongoose.set('bufferCommands', false);
+  mongoose.set('strictQuery', true);
   if (cachedConnection && mongoose.connection.readyState === 1) {
     console.log('✅ Using cached database connection');
     return cachedConnection;
@@ -33,8 +36,12 @@ const connectDB = async () => {
       sanitizedUri = rawUri;
     }
 
-    // Simple connection for both local and serverless
-    const connection = await mongoose.connect(sanitizedUri);
+    // Simple connection for both local and serverless with safe timeouts
+    const connection = await mongoose.connect(sanitizedUri, {
+      serverSelectionTimeoutMS: 8000,
+      socketTimeoutMS: 15000,
+      family: 4
+    });
     
     cachedConnection = connection;
     console.log('✅ Database connection established');
