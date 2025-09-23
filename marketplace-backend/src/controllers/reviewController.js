@@ -155,9 +155,16 @@ const getAllReviews = async (req, res) => {
     // Transform photo buffer to base64 for user profile images
     const transformedReviews = reviews.map(review => {
       const reviewObj = review.toObject();
+      // Safeguard when user document missing or without photo
       if (reviewObj.user_id && reviewObj.user_id.photo) {
-        reviewObj.user_id.profileImage = `data:image/jpeg;base64,${reviewObj.user_id.photo.toString('base64')}`;
-        delete reviewObj.user_id.photo; // Remove the buffer data
+        try {
+          reviewObj.user_id.profileImage = `data:image/jpeg;base64,${reviewObj.user_id.photo.toString('base64')}`;
+        } catch (_) {
+          reviewObj.user_id.profileImage = null;
+        }
+        delete reviewObj.user_id.photo;
+      } else if (reviewObj.user_id) {
+        reviewObj.user_id.profileImage = null;
       }
       return reviewObj;
     });
@@ -241,17 +248,23 @@ const getReviewsByProduct = async (req, res) => {
     // Transform reviews to include profileImage
     const transformedReviews = reviews.map(review => {
       let profileImage = null;
-      if (review.user_id.photo) {
-        const base64Photo = review.user_id.photo.toString('base64');
-        profileImage = `data:image/jpeg;base64,${base64Photo}`;
+      const userDoc = review.user_id;
+      if (userDoc && userDoc.photo) {
+        try {
+          const base64Photo = userDoc.photo.toString('base64');
+          profileImage = `data:image/jpeg;base64,${base64Photo}`;
+        } catch (_) {
+          profileImage = null;
+        }
       }
 
+      const safeUser = userDoc ? userDoc.toObject() : { username: 'Unknown User' };
       return {
         ...review.toObject(),
         user_id: {
-          ...review.user_id.toObject(),
+          ...safeUser,
           profileImage,
-          photo: undefined // Remove the raw photo data
+          photo: undefined
         }
       };
     });
