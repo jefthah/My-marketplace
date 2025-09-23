@@ -21,6 +21,10 @@ const connectDB = async () => {
         .replace(/([?&])(bufferMaxEntries|useNewUrlParser|useUnifiedTopology|poolSize|wtimeoutMS)=[^&]*&?/gi, '$1')
         // Remove trailing ? or & left behind
         .replace(/[?&]$/g, '');
+      // As a last resort, drop the entire query string to avoid any invalid params
+      if (/\?/.test(sanitizedUri)) {
+        sanitizedUri = sanitizedUri.split('?')[0];
+      }
       if (rawUri !== sanitizedUri) {
         console.log('⚠️  Detected and removed invalid MongoDB URI options from environment');
       }

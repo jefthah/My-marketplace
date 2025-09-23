@@ -97,12 +97,20 @@ app.get('/', (req, res) => {
 
 // Debug endpoint for troubleshooting
 app.get('/debug', (req, res) => {
+  const rawUri = process.env.MONGODB_URI || '';
+  const masked = rawUri
+    ? rawUri.replace(/(mongodb\+srv:\/\/[^:]+:)[^@]+(@.*)/i, '$1****$2')
+    : null;
+  const hasBadParam = /(bufferMaxEntries|useNewUrlParser|useUnifiedTopology|poolSize|wtimeoutMS)/i.test(rawUri);
   res.json({
     success: true,
     message: 'API is working!',
     environment: process.env.NODE_ENV,
-    hasMongoUri: !!process.env.MONGODB_URI,
+    hasMongoUri: !!rawUri,
+    mongoUriMask: masked,
+    containsInvalidParams: hasBadParam,
     hasJwtSecret: !!process.env.JWT_SECRET,
+    routesLoaded: 'synchronously',
     timestamp: new Date().toISOString()
   });
 });
