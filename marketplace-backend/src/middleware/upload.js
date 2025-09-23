@@ -2,8 +2,11 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure upload directories exist
-const uploadDirs = ['./uploads/images', './uploads/source-codes'];
+// On serverless (e.g., Vercel) the filesystem is read-only except for /tmp
+// Use /tmp for any disk operations; images already use memory storage
+const baseDir = process.env.VERCEL ? '/tmp' : '.';
+// Ensure upload directories exist (only for disk usage)
+const uploadDirs = [`${baseDir}/uploads/images`, `${baseDir}/uploads/source-codes`];
 uploadDirs.forEach(dir => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -16,7 +19,7 @@ const imageStorage = multer.memoryStorage();
 // Storage for source code files (disk storage)
 const sourceCodeStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/source-codes');
+    cb(null, `${baseDir}/uploads/source-codes`);
   },
   filename: function (req, file, cb) {
     const uniqueName = `${Date.now()}_${Math.round(Math.random() * 1E9)}_${file.originalname}`;
