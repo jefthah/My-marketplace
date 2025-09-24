@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://my-marketplace-sigma.vercel.app/sitemap.xml
 
 # Disallow admin pages
 Disallow: /admin/
@@ -11,7 +11,14 @@ Disallow: /admin/products
 # Allow product pages
 Allow: /product/
 Allow: /products
+Allow: /cart
+Allow: /favorites
+Allow: /reviews
 
 # Allow static assets
 Allow: /logo/
 Allow: /assets/
+Allow: /public/
+
+# Crawl delay
+Crawl-delay: 1
