@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import { HelmetProvider } from "react-helmet-async"
 import { AuthProvider } from "./contexts/AuthContext"
+import GoogleAnalytics from "./components/GoogleAnalytics"
 import { LoginPage, Dashboard, SignupPage, OrderDetailPage, GuestCheckoutPage, PaymentPage, PaymentSuccessPage, FavoritesPage, ReviewPage, ReviewsPage, AllProductsPage, PrivacyPolicyPage } from "./pages"
 import HomePage from "./pages/HomePage"
 import ProductDetailPage from "./pages/ProductDetailPage"
@@ -19,6 +20,7 @@ function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
+        <GoogleAnalytics measurementId="G-MRY6L97DP4" />
         <Router>
         <div className="bg-white">
           <Routes>
