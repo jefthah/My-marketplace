@@ -16,8 +16,7 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   className = '',
   width,
   height,
-  loading = 'lazy',
-  priority = false
+  loading = 'lazy'
 }) => {
   return (
     <img

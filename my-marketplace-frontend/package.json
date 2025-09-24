@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "vercel-build": "npm install --legacy-peer-deps && npm run build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
@@ -32,5 +33,11 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"
+  },
+  "overrides": {
+    "react-helmet-async": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }
