@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Navigation, Footer } from "../layouts"
+import SEOHead from "../components/SEOHead"
+import StructuredData from "../components/StructuredData"
 import { 
   HeroSection, 
   CategoriesSection, 
@@ -24,6 +26,15 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title="JD'SIGN Marketplace - Jual Beli Template Design Premium & Source Code Terpercaya"
+        description="Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Dapatkan template website, mobile app, dan design assets dengan harga terjangkau di Indonesia."
+        keywords="marketplace design, template premium, source code, jual beli template, design assets, template website, mobile app template, UI/UX design, marketplace Indonesia, template responsive, source code aplikasi"
+        url="https://your-domain.com"
+      />
+      <StructuredData type="website" data={{}} />
+      <StructuredData type="organization" data={{}} />
+      
       <Navigation onCartClick={handleCartClick} />
       
       <main>

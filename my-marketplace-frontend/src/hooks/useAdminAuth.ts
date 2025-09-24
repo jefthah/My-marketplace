@@ -52,7 +52,8 @@ export const useAdminAuth = (): UseAdminAuthReturn => {
       
       // Verify token is still valid by making API call
       console.log('🌐 Making API call to /api/auth/me');
-      const response = await fetch('http://localhost:3000/api/auth/me', {
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+      const response = await fetch(`${base}/auth/me`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
+import { HelmetProvider } from "react-helmet-async"
 import { AuthProvider } from "./contexts/AuthContext"
 import { LoginPage, Dashboard, SignupPage, OrderDetailPage, GuestCheckoutPage, PaymentPage, PaymentSuccessPage, FavoritesPage, ReviewPage, ReviewsPage, AllProductsPage, PrivacyPolicyPage } from "./pages"
 import HomePage from "./pages/HomePage"
@@ -16,8 +17,9 @@ function CartPageWrapper() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <HelmetProvider>
+      <AuthProvider>
+        <Router>
         <div className="bg-white">
           <Routes>
             {/* Route untuk login */}
@@ -80,8 +82,9 @@ function App() {
           {/* WhatsApp Customer Service Button - muncul di semua halaman */}
           <WhatsAppButton />
         </div>
-      </Router>
-    </AuthProvider>
+        </Router>
+      </AuthProvider>
+    </HelmetProvider>
   )
 }
 
