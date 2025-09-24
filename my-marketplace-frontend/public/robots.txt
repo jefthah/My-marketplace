@@ -3,6 +3,7 @@ Allow: /
 
 # Sitemap
 Sitemap: https://my-marketplace-sigma.vercel.app/sitemap.xml
+Sitemap: https://my-marketplace-sigma.vercel.app/sitemap-index.xml
 
 # Disallow admin pages
 Disallow: /admin/
