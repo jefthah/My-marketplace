@@ -30,7 +30,7 @@ const HomePage = () => {
         title="JD'SIGN Marketplace - Jual Beli Template Design Premium & Source Code Terpercaya"
         description="Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Dapatkan template website, mobile app, dan design assets dengan harga terjangkau di Indonesia."
         keywords="marketplace design, template premium, source code, jual beli template, design assets, template website, mobile app template, UI/UX design, marketplace Indonesia, template responsive, source code aplikasi"
-        url="https://your-domain.com"
+        url="https://my-marketplace-sigma.vercel.app"
       />
       <StructuredData type="website" data={{}} />
       <StructuredData type="organization" data={{}} />

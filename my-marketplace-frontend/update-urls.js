@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Ganti dengan domain asli Anda
 const OLD_DOMAIN = 'https://your-domain.com';
-const NEW_DOMAIN = 'https://your-actual-domain.com'; // Ganti dengan domain asli
+const NEW_DOMAIN = 'https://my-marketplace-sigma.vercel.app'; // Domain Vercel
 
 const filesToUpdate = [
   'index.html',

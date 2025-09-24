@@ -15,8 +15,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   title = "JD'SIGN Marketplace - Jual Beli Template Design Premium & Source Code",
   description = "Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Dapatkan template website, mobile app, dan design assets dengan harga terjangkau.",
   keywords = "marketplace design, template premium, source code, jual beli template, design assets, template website, mobile app template, UI/UX design, marketplace Indonesia",
-  image = "https://your-domain.com/logo/Logo-JS.png",
-  url = "https://your-domain.com",
+  image = "https://my-marketplace-sigma.vercel.app/logo/Logo-JS.png",
+  url = "https://my-marketplace-sigma.vercel.app",
   type = "website",
   structuredData
 }) => {
