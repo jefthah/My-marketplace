@@ -12,9 +12,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "JD'SIGN Marketplace - Jual Beli Template Design Premium & Source Code",
-  description = "Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Dapatkan template website, mobile app, dan design assets dengan harga terjangkau.",
-  keywords = "marketplace design, template premium, source code, jual beli template, design assets, template website, mobile app template, UI/UX design, marketplace Indonesia",
+  title = "JD'SIGN Marketplace - Jual Beli Template Design Premium & Source Code Indonesia",
+  description = "JD'SIGN Marketplace - Platform jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Temukan template website, mobile app, UI/UX design dengan harga terbaik di Indonesia.",
+  keywords = "jd sign marketplace, marketplace design, template premium, source code, jual beli template, design assets, template website, mobile app template, UI/UX design, marketplace Indonesia, jd'sign, template design premium",
   image = "https://my-marketplace-sigma.vercel.app/logo/Logo-JS.png",
   url = "https://my-marketplace-sigma.vercel.app",
   type = "website",

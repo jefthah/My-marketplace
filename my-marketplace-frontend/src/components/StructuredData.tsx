@@ -13,7 +13,8 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "JD'SIGN Marketplace",
-          "description": "Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi",
+          "alternateName": "JD Sign Marketplace",
+          "description": "JD'SIGN Marketplace - Platform jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Temukan template website, mobile app, UI/UX design dengan harga terbaik di Indonesia.",
           "url": "https://my-marketplace-sigma.vercel.app",
           "potentialAction": {
             "@type": "SearchAction",
@@ -63,9 +64,15 @@ const StructuredData: React.FC<StructuredDataProps> = ({ type, data }) => {
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "JD'SIGN Marketplace",
-          "description": "Marketplace terpercaya untuk jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi",
+          "alternateName": "JD Sign Marketplace",
+          "description": "JD'SIGN Marketplace - Platform jual beli template design premium, source code aplikasi, dan aset digital berkualitas tinggi. Temukan template website, mobile app, UI/UX design dengan harga terbaik di Indonesia.",
           "url": "https://my-marketplace-sigma.vercel.app",
-          "logo": "https://my-marketplace-sigma.vercel.app/logo/Logo-JS.png",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://my-marketplace-sigma.vercel.app/logo/Logo-JS.png",
+            "width": 512,
+            "height": 512
+          },
           "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "customer service",

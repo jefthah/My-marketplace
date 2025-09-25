@@ -8,18 +8,31 @@ Sitemap: https://my-marketplace-sigma.vercel.app/sitemap-index.xml
 # Disallow admin pages
 Disallow: /admin/
 Disallow: /admin/products
+Disallow: /admin/orders
+Disallow: /admin/users
 
-# Allow product pages
+# Allow important pages for SEO
 Allow: /product/
 Allow: /products
 Allow: /cart
 Allow: /favorites
 Allow: /reviews
+Allow: /about
+Allow: /contact
+Allow: /help
 
 # Allow static assets
 Allow: /logo/
 Allow: /assets/
 Allow: /public/
+Allow: /images/
+
+# Allow API endpoints for search engines
+Allow: /api/products
+Allow: /api/categories
 
 # Crawl delay
 Crawl-delay: 1
+
+# Host directive
+Host: https://my-marketplace-sigma.vercel.app
